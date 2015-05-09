@@ -1,0 +1,679 @@
+/* sprava_webu_v3 */
+
+/* *** DEFAULT *** */
+.shadow
+{
+  background-color: #DDDDDD;
+}
+.no_decoration
+{
+  text-decoration:none;
+}
+
+.odhlasit
+{
+  position: absolute;
+  left: 0px; 
+  top: 4px;
+  border: 0px solid black; 
+  width: 99%;
+  text-align: right;
+  text-transform: lowercase;
+  font-size: small;
+  font-family: sans-serif; 
+  color: blue;
+  font-weight: bold;
+  margin-right:0.5em;
+}
+.prihlasit
+{
+  position: absolute;
+  left: 0px; 
+  top: 4px;
+  border: 0px solid black; 
+  width: 99%;
+  text-align: right;
+  text-transform: lowercase;
+  font-size: small;
+  font-family: sans-serif; 
+  color: green;
+  font-weight: bold;
+  margin-right:0.5em;
+}
+
+body.vse 
+{
+  background-color: white;
+  margin: 0px;
+  vertical-align: top;
+  text-align: left;
+  border: 0px solid red;
+  font-size: 100%;  
+}
+p
+{
+  margin:0.5em;
+}
+input[type="file"]
+{
+  
+}
+div
+{
+  display: block;
+  overflow: hidden;
+  padding: 0.5em;
+  margin:0.5em;
+  text-align: left;
+  vertical-align:top;
+  line-height: 100%;
+  color: black;
+}
+div.obrk_mini
+{
+  background-color: black;
+  margin: 0em;
+  padding: 0em;
+  width:10em;
+  height:5em;
+}
+/*
+div.err
+{
+  font: bold 80% Arial;
+  text-align: left;
+  color: white;
+  background-color:red;
+  border: 0.2em solid black;  
+}
+*/
+div.err
+{
+  font: bold 80% Arial;
+  text-align: left;
+  color: red;
+  background-color: white;
+  border: 0.2em solid red;  
+}
+div.informace
+{
+  font: normal 100% Arial;
+  text-align: left;
+  border: 0.0em solid black;  
+}
+div.editable
+{
+  border: 0.1em solid orange;
+  width: 27.5em;
+}
+div.editable_err
+{
+  border: 0.1em solid red;
+  width: 27.5em;
+}
+div.information
+{
+  border: 0.1em solid green;
+  width: 27.5em;
+}
+div.create
+{
+  border: 0.1em solid black;
+}
+div.mini
+{
+  height: 7em;
+  border: 0px solid orange;
+  margin: 0em;
+  padding:0em;
+  margin-top:0.5em;
+  text-align: left;
+}
+div.event_list
+{
+  border-left: 0.2em solid gray;
+  padding-bottom: 0em;
+  padding-top: 0em;
+  margin-bottom:2em;
+  margin-left:2em;
+}
+div.li
+{
+  padding:0.2em;
+  padding-left:1em;
+  margin: 0em;
+  border: 0px solid black;
+}
+span.hodnota
+{
+  font: normal 80% Arial;
+  text-align: left;
+  color: black;
+  padding:0em;
+  margin:0em;
+  margin-left:0.5em;
+}
+span.hodnota_err
+{
+  font: normal 80% Arial;
+  text-align: left;
+  color: red;
+  padding:0em;
+  margin:0em;
+  margin-left:0.5em;
+}
+span.popis
+{
+  font: normal 80% Arial;
+  text-align: left;
+  color: gray;
+  padding:0em;
+  margin:0em;
+}
+span.err
+{
+  display: block;
+  font: bold 80% Arial;
+  text-align: left;
+  color: red;
+  padding:0em;
+  padding-top:0.5em;
+  margin:0em;
+}
+span.comment
+{
+  display: block;
+  font: normal 80% Arial;
+  text-align: left;
+  color: purple;/*Coral;*/
+  padding:0em;
+  margin:0em;
+}
+h2.detail
+{
+  font: bold 100% Arial;
+  text-align: left;
+  color: blue;
+  padding:0.5em;
+  padding-left:0em;
+  margin:0em;
+}
+h3.err
+{
+  font: bold 80% Arial;
+  text-align: left;
+  color: red;
+  padding:0.5em;
+  margin:0em;
+}
+h3.info
+{
+  font: bold 80% Arial;
+  text-align: left;
+  color: gray;
+  padding:0.5em;
+  margin:0em;
+}
+hr
+{
+  border:2px solid gray;
+  width:100%;
+}
+fieldset.obrk_normal
+{
+  display: inline-block;
+  margin: 0.5em;
+  width: 12em;
+  border: 0.1em solid black;
+  /* background: url("./blok-pozadi-blue-2.png") left bottom repeat-x; */
+}
+fieldset
+{
+  display: inline-block;
+  margin: 0.5em;
+  padding: 0.5em;
+}
+legend
+{
+  font: normal 100% Arial;
+  color: black;
+  padding:0.5em;
+  margin:0.5em;
+  border: 0.0em solid black;  
+}
+td
+{
+  text-align: left;
+  vertical-align: top;
+}
+li
+{
+  margin-top: 0.5em;
+}
+li.hidden
+{
+  list-style-image: none;
+  list-style-type: none;
+}
+img.pdf
+{
+  width: 48px;
+  padding: 0px;
+  margin: 0px;
+  text-align: center;  
+  vertical-align: top;
+  border: 1px solid black;
+}
+img.mini
+{
+  border: 0em solid black;
+  vertical-align: top;
+  width: 5em;
+  margin: 0.0em;
+  margin-right:0.5em; 
+}
+img.normal
+{
+  border: 0em solid black;
+  vertical-align: top;
+  width: 12em;
+  margin: 0.0em;
+  margin-right:0.5em; 
+}
+
+/* *** MAIN *** */
+div.main_obsah
+{
+  border: 0.2em solid blue;
+  border-right: 0em;
+  border-bottom: 0em;
+  background: url("./brouq-mini.png") right bottom no-repeat;
+}
+div.main_menu
+{
+  border: 0px solid black;
+  margin: 0em;
+  padding: 0em;
+}
+h1.main
+{
+  font: bold 150% Arial;
+  text-align: left;
+  color: silver;
+  padding:1em;
+  margin:0em;
+}
+h2.main
+{
+  font: bold 100% Arial;
+  text-align: left;
+  color: red;
+  padding:0.5em;
+  margin:0em;
+}
+
+/* *** OBSAH *** */
+
+/* *** MENU *** */
+div.menu
+{
+  border: 0.2em solid red;
+  border-left: 0px;
+  border-right: 0px;
+  margin-top:0px;
+  margin-bottom:0px;
+  padding-left: 0em;
+  padding-right: 0em;
+}
+div.menu_sub
+{
+  border:0px;
+  border-top: 0.2em solid red;
+  margin-top:0px;
+  margin-bottom:0px;
+  padding-left: 0em;
+  padding-right: 0em;
+  padding-bottom: 0em;
+}
+a.menu, a.menuAktivni 
+{
+  font: bold 100% Arial;
+  color: blue;
+  text-decoration: none;
+  padding:0.5em;
+  margin:0.5em;
+  padding-right:0.2em;
+  padding-left:0.2em;
+}
+a.menu:hover, a.menu:active, a.menu:focus 
+{
+  color: black;
+}
+a.menuAktivni 
+{
+  color: red;
+}
+a.menuLogin, a.menuLoginAktivni 
+{
+  font: bold 80% Arial;
+  text-transform:lowercase;
+  color: green;
+  text-decoration: none;
+  padding:0.5em;
+  padding-left: 1.5em;
+}
+a.menuLogin:hover, a.menuLogin:active, a.menuLogin:focus 
+{
+  color: black;
+}
+a.remove
+{
+  color: red;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding-left:1em;
+  font: bold 80% Arial;
+}
+a.popis
+{
+  font: normal 80% Arial;
+  text-align: left;
+  color: gray;
+  text-decoration:underline;
+  padding:0em;
+  margin:0em;
+}
+a.popis:hover, a.popis:active, a.popis:focus 
+{
+  color: black;
+}
+
+div.submenu
+{
+  border: 0em solid red;
+  margin:0px;
+  margin-top:0.5em;
+  padding-left: 0em;
+  padding-right: 0em;
+  background-color: red;
+}
+a.submenu, a.submenuAktivni 
+{
+  font: bold 80% Arial;
+  color: white;
+  text-decoration: underline;
+  padding:0.5em;
+  padding-right:0.2em;  
+}
+a.submenu:hover, a.submenu:active, a.submenu:focus 
+{
+  color: black;
+}
+a.submenuAktivni 
+{
+  color: black;
+  text-decoration: none;
+}
+a.hodnota 
+{
+  font: bold 80% Arial;
+  color: blue;
+  text-decoration: none;
+}
+a.nadpis 
+{
+  font: bold 90% Arial;
+  color: blue;
+  text-decoration: none;
+}
+a.hodnota:hover, a.hodnota:active, a.hodnota:focus 
+{
+  color: black;
+}
+a.add 
+{
+  font: bold 100% Arial;
+  color: green;
+  text-decoration: none;
+}
+
+/* *** VYROBKY *** */
+fieldset.vyrobek, fieldset.vyrobek_err
+{
+  display: inline-block;
+  margin: 0.5em;
+  
+  width: 30em;
+  border: 0.1em solid black;  
+}
+fieldset.vyrobek_err
+{
+  border: 0.1em solid red;  
+}
+fieldset.vyrobek_list_item, fieldset.vyrobek_list_item_disable
+{
+  display: inline-block;
+  margin: 0.0em;
+  padding: 0.5em;
+  width: 12em;
+  border: 0.1em solid black;
+  background: url("./blok-pozadi-blue-2.png") left bottom repeat-x;
+}
+fieldset.vyrobek_list_item_disable
+{
+  background: url("./blok-pozadi-red-2.png") left bottom repeat-x;
+}
+
+/* *** EVENTS *** */
+fieldset.event_list_item, fieldset.event_list_item_disable
+{
+  display: block;
+  margin: 0.5em;
+  width: 37em;
+  border: 0.1em solid black;  
+  background: url("./blok-pozadi-blue-2.png") left bottom repeat-x;
+}
+fieldset.event_list_item_disable
+{
+  background: url("./blok-pozadi-red-2.png") left bottom repeat-x;
+}
+div.event_text
+{
+  border: 0.0em solid orange;
+  margin:0.0em;
+  padding:0.5em;
+  padding-left:0.5em;
+  width: 26em;
+  text-align: justify;
+}
+textarea.event_text
+{
+  width: 32em;
+}
+
+/* *** MASKOTI *** */
+fieldset.maskot, fieldset.maskot_err
+{
+  display: inline-block;
+  margin: 0.5em;
+  width: 30em;
+  border: 0.1em solid black;  
+  /* background: url("./blok-pozadi-blue-2.png") left bottom repeat-x; */
+}
+fieldset.maskot_err
+{
+  border: 0.1em solid red;  
+}
+legend.maskot
+{
+  font: bold 100% Arial;
+  padding:0.5em;
+  margin:0.5em;
+  border: 0.0em solid orange;  
+}
+fieldset.maskot_list_item, fieldset.maskot_list_item_disable
+{
+  display: inline-block;
+  margin: 0.5em;
+  width: 12em;
+  border: 0.1em solid black;
+  background: url("./blok-pozadi-blue-2.png") left bottom repeat-x;
+}
+fieldset.maskot_list_item_disable
+{
+  background: url("./blok-pozadi-red-2.png") left bottom repeat-x;
+}
+table.maskot_list_item
+{
+  border-top: 0.2em solid gray;
+  margin: 0.5em;
+  margin-bottom: 1.5em;
+  padding-bottom:0.5em;
+  padding-top:0.5em;
+  background: url("./blok-pozadi-blue-2.png") left bottom repeat-x;
+}
+
+/* *** PERSON *** */
+tr.lightblue
+{
+  background-color: PaleTurquoise;
+}
+tr.lightorange
+{
+  background-color: LightSalmon;
+}
+tr.lightred
+{
+  background-color: LightCoral;
+}
+
+tr.person_miklab
+{
+  background-color: LightSalmon;
+}
+
+tr.person_ldap
+{
+  background-color: LightCoral;
+}
+
+tr.person_system
+{
+  background-color: PaleTurquoise;
+}
+
+td.center
+{
+  text-align:center;
+}
+td.right
+{
+  text-align:right;
+}
+
+.red
+{
+  color:red;
+}
+
+
+table.sbackup_schedule
+{
+  margin: 0.5em;
+  padding:0.5em;
+  border: 0.2em solid black;
+}
+
+th.sbackup_schedule
+{
+  padding:0.5em;
+  text-align: center;
+  border: 0.0em solid black;
+  border-bottom:0.1em solid black;
+  border-left:0.1em solid gray;
+  
+}
+th.sbackup_schedule_first
+{
+  padding:0.2em;
+  text-align:left;
+  border: 0.0em solid gray;
+  border-right: 0.0em solid black;
+  border-bottom:0.1em solid black;
+}
+th.sbackup_schedule_hours
+{
+  padding:0.5em;
+  text-align:left;
+  border: 0.0em solid gray;
+  border-bottom:0.1em solid gray;
+}
+td.sbackup_schedule
+{
+  padding:0.2em;
+  text-align:center;
+  border: 0.0em solid gray;
+  border-bottom:0.1em solid gray;
+  border-left:0.1em solid gray;
+}
+td.sbackup_schedule_mins
+{
+  padding:0.2em;
+  text-align:left;
+  border: 0.0em solid gray;
+  border-right: 0.0em solid black;
+  border-bottom:0.1em solid gray;
+}
+
+tr.sbackup_schedule_suda
+{
+  background-color:#EEEEEE;
+}
+span.menu 
+{
+  font: bold 100% Arial;
+  color: black;
+  padding:0.5em;
+  margin:0.5em;
+}
+
+th.computer_overview
+{
+  margin: 0.0em;
+  padding:0.5em;
+  border: 0.1em solid black;
+}
+
+td.computer_overview
+{
+  margin: 0.0em;
+  padding:0.5em;
+  padding-right:2em;
+  border: 0.1em solid black;
+}
+
+td.oddelovac
+{
+  margin: 0.0em;
+  padding:0.0em;
+  width:0px;
+  border-left: 0.1em solid black;
+  /* border: 1px solid orange; */
+}
+
+/* ============================================== */
+
+div.main_menu {
+  display: none;
+}
+
+div.main_obsah {
+  border: 0;
+}
+a.odhlasit {
+  display: none;
+}
+
+.no_print {
+  display: none;
+}

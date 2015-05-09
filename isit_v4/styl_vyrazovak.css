@@ -1,0 +1,173 @@
+    .center {
+      text-align:center
+    }
+    .hidden {
+      display: none;
+    }
+    
+    body {
+      padding: 0xp;
+      margin: 0px;            
+      text-align:left;
+    }
+       
+    div.main {
+      overflow: hidden;
+      width: 156mm;
+      margin: 0mm;
+      padding: 0mm;
+      margin-left: 25mm;
+      padding-top: 30mm;
+      text-align: left;
+      font-family: times, serif;
+      font-size: .1in;
+      font-style: normal;
+      border: 0px dotted black;
+    }
+    
+    h1 {
+      padding: 0xp;
+      margin: 0px;
+      padding-bottom: 5mm;
+      text-align: center;
+      font-family: times, serif;
+      font-size: .2in;
+      font-style: bold;
+    }       
+
+    hr {
+      padding: 0xp;
+      margin: 0px;
+      padding-bottom: 5mm;
+      text-align:left;
+      width:156mm;
+      border: 0px;
+      border-top:2px solid black;
+    }
+
+    table {
+      padding: 0xp;
+      margin: 0px;
+      table-layout: fixed;
+      width: 156mm;
+      /*border: 1px solid black;*/  
+      /*border-bottom: 0px;*/              
+    }    
+        
+    td {
+      margin:0px;
+      padding:0px;
+      text-align: left;
+      vertical-align: middle;
+      /*border: 0px solid black;*/      
+    }
+
+    td.sloupec_0 {
+      width: 40mm;
+      vertical-align: top;
+      font-family: times, serif;
+      font-size: .2in;
+      font-style: normal;
+      padding-left: 1mm;
+    }
+
+    td.sloupec_1 {
+      width: 40mm;
+      font-family: times, serif;
+      font-size: .2in;
+      font-style: normal;
+      padding-left: 1mm;
+    }
+
+    td.sloupec_2 {
+      height: 9mm;
+      padding-left: 1mm;
+      font-family: times, serif;
+      font-size: .2in;
+      font-style: normal;
+    }
+
+    td.sloupec_3 {
+      width: 28mm;
+      height: 11mm;
+      text-align: center;
+      font-family: times, serif;
+      font-size: .2in;
+      font-style: normal;
+    }
+
+    td.label {
+      width: 38mm;
+      height: 5mm;  
+      padding-left: 1mm; 
+      font-family: times, serif;
+      font-size: .15in;
+      font-style: normal;
+       
+    }    
+
+    td.zaskrtavatko {
+      width: 5mm;
+      height: 5mm;    
+    }    
+
+    td.vycpavka {
+      width: 3mm;
+    }    
+    
+    td.jine {   
+      border-bottom: 0px;
+      padding-left: 1mm;  
+      font-family: times, serif;
+      font-size: .15in;
+      font-style: normal;
+          
+    }
+
+    #t1 {
+      margin-top: 0mm;        
+    }
+    #t2 {
+      margin-top: 5mm;        
+    }
+    #t3 {
+      margin-top: 15mm;        
+    }
+    #t4 {
+      margin-top: 5mm;
+      margin-bottom: 70mm;        
+    }
+    
+    td.td_1 {
+      border-top: 0px;
+      border-right: 0px;
+    }
+    td.td_2 {
+      border-left: 0px;
+    }
+    td.td_3 {
+      border-left: 0px;
+      border-top: 0px;
+    }
+    td.td_4 {
+      border-right: 0px;
+      border-top: 0px;
+      border-bottom: 0px;
+    }
+    td.td_5 {
+      border-left: 0px;
+      border-bottom: 0px;
+    }
+
+    span.upper_index
+    {
+      vertical-align: super;
+      font-size: 2mm;  
+    }
+    span.fas
+    {
+      font-size: 3mm;
+      font-family: arial, sans-serif;
+      font-style: italic; 
+    }
+    
