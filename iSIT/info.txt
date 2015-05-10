@@ -2,3 +2,34 @@ https://www.youtube.com/watch?v=ptK9-CNms98
 https://www.howtoforge.com/tutorial/install-git-and-github-on-ubuntu-14.04/
 
 test
+
+instalace ubuntu
+================
+$ sudo apt-get install mysql-server
+$ sudo apt-get install apache2
+$ sudo apt-get install php5 libapache2-mod-auth-mysql php5-mysql 
+$ mysql -u root -p
+- CREATE DATABASE isit CHARACTER SET utf8 COLLATE utf8_bin;
+- GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER,INDEX on isit.* TO isit@localhost IDENTIFIED BY 'heslo';
+- flush privileges;
+- exit
+$ sudo apt-get install phpmyadmin
+- http://localhost/phpmyadmin/
+
+$ cd /tmp
+$ git clone https://github.com/BrouQ/iSIT.git
+$ sudo mv iSIT/* /var/www/html/
+$ sudo chown -R www-data:www-data /var/www/html/iSIT/
+
+/var/www/html/iSIT/Classes/ClassRepository.php
+----------------------------------------------
+$dbSrv = 'localhost';//':/webdev/mysql/mysqld.sock';
+$dbName = 'isit';           
+$dbUserName = 'isit';
+$dbPasswd = 'heslo';
+
+$ mysql -u isit -p isit < /var/www/html/iSIT/isit_v4-db-dump.sql 
+
+- http://localhost/iSIT
+
+
