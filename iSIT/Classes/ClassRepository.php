@@ -2198,9 +2198,9 @@ class Repository
   {
     $connectionId;  // identifikator spojeni s db
     $dbSrv = 'localhost';//':/webdev/mysql/mysqld.sock';
-    $dbName = 'isit_v3-duhovka'; 
-    $dbUserName = 'isit_rw';
-    $dbPasswd = '';
+    $dbName = 'isit'; 
+    $dbUserName = 'isit';
+    $dbPasswd = 'heslo';
 
     if($connectionId = mysql_connect($dbSrv, $dbUserName,$dbPasswd))
     {
