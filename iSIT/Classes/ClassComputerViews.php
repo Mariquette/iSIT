@@ -39,8 +39,9 @@ class ComputerViews
                   <th><span class="popis">PC Name</span></th>
                   <th><span class="popis">TeamViewer</span></th>
                   <th><a href="./computers.php?sort=datum_porizeni" class="popis">Datum pořízení</a></th>
-                  <th><span class="popis">Documents</span></th>
-                  <th></th>
+                  <th><span class="popis">Users</span></th>
+      			  <th><span class="popis">Documents</span></th>
+      			  <th></th>
                 </tr>
       ';  
       
@@ -52,6 +53,13 @@ class ComputerViews
         
         if(Util::is_instance_of($computer,"Computer"))
         {
+        	$users = "";
+        	foreach($computer->get_all_uses() as $use)
+        	{
+        		$users.=$use->get_person_login().", ";
+        	}
+        	if($users != "") $users = substr($users, 0, -2);
+        	 
           $dodak = "";
           if($computer->is_dodak())
           {                         
@@ -79,6 +87,7 @@ class ComputerViews
                       <td><span class="hodnota">'.$computer->get_pc_name(20).'</span></td>
                       <td><span class="hodnota">'.$computer->get_teamviewer().'</span></td>
                       <td><span class="hodnota">'.$computer->get_datum_porizeni(20).'</span></td>
+                      <td><span class="hodnota">'.$users.'</span></td>
                       <td>'.$dodak.$vyrazovak.'</td>
                       <td>';
           
@@ -211,7 +220,21 @@ class ComputerViews
   if($rw) $html.='<li class="hidden no_print"><a class="hodnota" href="./computers.php?add_comment='.$computer->get_id().'"> ... Add Comment ...</a></li>';
           $html.= '</ul>
         </p>';  
-       
+
+          $html.='<p>
+          <h3 class="info">Uživatelé</h3>
+          <ul>';
+          foreach($computer->get_all_uses() as $use)
+          {
+          	$html.='<li>'.$use->get_person_full_name();
+          	if($rw) $html.=' <a class="remove no_print" href="./computers.php?remove_user='.$use->get_id().'" title="remove user">x</a>';
+          	$html.="</li>";
+          }
+          
+          if($rw) $html.='  <li class="hidden no_print"><a class="hodnota" href="./computers.php?add_user='.$computer->get_id().'"> ... Add User ...</a></li>';
+          $html.='</ul>
+      </p>';
+          
     return $html;
   }
   
@@ -380,6 +403,70 @@ $html.= '
     return $html;
   }
 
+  
+  // ----------------
+  // --- ADD USER ---
+  // ----------------
+  
+  static function _add_user($computer, $persons)
+  {
+  	if(Util::is_instance_of($computer,"Computer") == false) return "<h3 class=\"err\">Views::add_computer_user(\$computer \$persons): promenna \$computer musi byt instanci tridy Computer!</h3>";
+  
+  	$html = '
+      <fieldset class="computer">
+        <legend class="computer">Add User</legend>
+  			<form action="./computers.php" enctype="multipart/form-data" method="post">
+
+        <div class="information">
+          <span class="popis">*Model:</span><span class="hodnota">'.$computer->get_model().'</span>            
+        </div>
+        <div class="information">
+          <span class="popis">*Sériové číslo:</span><span class="hodnota">'.$computer->get_seriove_cislo().'</span>
+        </div>
+        <div class="information">
+          <span class="popis">*Evidenční číslo:</span><span class="hodnota">'.$computer->get_evidencni_cislo().'</span>            
+        </div>
+        <div class="information">
+          <span class="popis">PC Name:</span><span class="hodnota">'.$computer->get_pc_name().'</span>            
+        </div>
+        <div class="information">
+          <span class="popis">TeamViewer:</span><span class="hodnota">'.$computer->get_teamviewer().'</span>            
+        </div>        
+        <div class="information">
+          <span class="popis">Datum pořízení:</span><span class="hodnota">'.$computer->get_datum_porizeni().'</span>
+        </div>
+  			
+        <div class="editable">
+        <select name="computer_use['.ComputerUse::get_person_id_index().']">';
+  
+  	$persons_list = '   <option value="" selected>... Select Person ... ('.count($persons).')</option>';
+  
+  	foreach($persons as $p)
+  	{
+  		$persons_list .= '<option value="'.$p->get_id().'">'.$p->get_login().", ".$p->get_full_name().", ".$p->get_osobni_cislo().'</option>';
+  	}
+  
+  	$html.=$persons_list;
+  
+  	$html.= ' </select>
+  
+        </div>
+  
+          <div class="tlacitka">
+            <input type="submit" name="save" value="Add User">
+            <a class="hodnota" href="./computers.php?detail='.$computer->get_id().'">Back to Detail</a>
+            <input type="hidden" name="computer_use['.ComputerUse::get_computer_id_index().']" value="'.$computer->get_id().'">
+            <input type="hidden" name="computer_use['.ComputerUse::get_id_index().']" value="">
+            <input type="hidden" name="computer_use['.ComputerUse::get_poznamka_index().']" value="">
+            <input type="hidden" name="token" value="'.Util::get_token().'">
+          </div>
+        </form>
+      </fieldset>
+    ';
+  	return $html;
+  }
+  
+  
 } // End Class
 
 ?>
