@@ -57,7 +57,12 @@ class Views
   {
     return ComputerViews::_edit($computer, $valid_test);
   }
-
+  //  ADD USER
+  static function add_computer_user($computer, $persons)
+  {
+  	return ComputerViews::_add_user($computer, $persons);
+  }
+  
 //  * ********************************************************************** *
 //  *                            PERSONS                                     *
 //  * ********************************************************************** *

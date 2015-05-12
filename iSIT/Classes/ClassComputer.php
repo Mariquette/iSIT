@@ -502,6 +502,12 @@ class Computer
     return $rep->get_all_comment_by_device($this);
   }
   
+  public function get_all_uses()
+  {
+    $rep = self::$rep;
+    return $rep->get_all_computer_use_by_computer_id($this->get_id());
+  }
+  
   /****************************** PRIVATE ***********************************/     
 
 

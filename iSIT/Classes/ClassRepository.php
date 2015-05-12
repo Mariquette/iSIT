@@ -172,6 +172,7 @@ class Repository
 			$tables[] = new ISIT_Table("Printers", "printers", "Printer", true);
 			$tables[] = new ISIT_Table("Printer Uses", "printer_uses", "PrinterUse");
 			$tables[] = new ISIT_Table("Requierements", "requirements", "Requirement");
+			$tables[] = new ISIT_Table("Computer Uses", "computer_uses", "ComputerUse");
 			
 			return $tables;
 		}
@@ -378,6 +379,65 @@ class Repository
     return false;
   }
  
+
+  // **********************
+  // **** COMPUTER USE ****
+  // **********************
+  
+  public function save_computer_use($obj)
+  {
+  	return $this->isit_save($obj);
+  }
+  
+  public function add_computer_use($obj)
+  {
+  	return $this->isit_add($obj);
+  }
+  
+  public function get_new_computer_use_id()
+  {
+  	$new_id=0;
+  	if($pole = $this->get_every_computer_use())
+  	{
+  		foreach($pole as $item)
+  		{
+  			if($item->get_id()>$new_id)$new_id = $item->get_id();
+  		}
+  		return $new_id + 1;
+  	}
+  	return $new_id;
+  }
+  
+  public function get_every_computer_use()
+  {
+  	$sql = "SELECT id, computer_id, person_id, poznamka FROM computer_uses";
+  
+  	return $this->isit_get_all($sql,"ComputerUse");
+  }
+  
+  public function get_all_computer_use()
+  {
+  	$sql = "SELECT id, computer_id, person_id, poznamka FROM computer_uses WHERE aktivni = 1";
+  
+  	return $this->isit_get_all($sql,"ComputerUse");
+  }
+  
+  public function get_all_computer_use_by_computer_id($computer_id)
+  {
+  	$sql = "SELECT id, computer_id, person_id, poznamka FROM computer_uses WHERE computer_id = $computer_id";
+  
+  	return $this->isit_get_all($sql,"ComputerUse");
+  }
+  
+  public function get_computer_use($id)
+  {
+  	$sql = "SELECT id, computer_id, person_id, poznamka FROM computer_uses WHERE id = $id";
+  
+  	return $this->isit_get_one($sql,"ComputerUse");
+  }
+  
+
+
 // *******************
 // **** COMPUTERS ****
 // *******************
@@ -2198,9 +2258,9 @@ class Repository
   {
     $connectionId;  // identifikator spojeni s db
     $dbSrv = 'localhost';//':/webdev/mysql/mysqld.sock';
-    $dbName = 'isit_v3-duhovka'; 
-    $dbUserName = 'isit_rw';
-    $dbPasswd = '';
+    $dbName = 'isit_devel'; 
+    $dbUserName = 'isit_devel';
+    $dbPasswd = 'heslo';
 
     if($connectionId = mysql_connect($dbSrv, $dbUserName,$dbPasswd))
     {

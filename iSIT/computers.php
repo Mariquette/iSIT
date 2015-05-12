@@ -197,7 +197,90 @@
     }    
     goto OUTPUT;
   }
-    
+
+  /* --- REMOVE USER --- */
+  if(isset($_GET["remove_user"]))
+  {
+  	if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
+  
+  	$menu->set_submenu_file_name(FileName."?detail");
+  
+  	if($computer_use = $rep->get_computer_use($_GET["remove_user"]))
+  	{
+  		if(!$rep->del_obj($computer_use))
+  		{
+  			$obsah_html .= Views::err("Nepodařilo se odstranit záznam.");
+  			$obsah_html .= Views::computer_detail($_rw, $rep->get_computer($computer_use->get_computer_id()));
+  		}
+  		else
+  		{
+  			$obsah_html .= Views::computer_detail($_rw, $rep->get_computer($computer_use->get_computer_id()));
+  		}
+  	}
+  	else
+  	{
+  		$obsah_html .= Views::err("Záznam s id=".$_GET["remove_user"]." nelze načíst!", FileName);
+  	}
+  	goto OUTPUT;
+  }
+  
+  /* --- ADD USER --- */
+  if(isset($_GET["add_user"]))
+  {
+  	if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
+  
+  	$menu->set_submenu_file_name(FileName."?detail");
+  	if($computer = $rep->get_computer($_GET["add_user"]))
+  	{
+  		$persons = $rep->get_all_person("login");
+  		$array = array();
+  		$persons_by_login = array();
+  		if (is_array($persons))
+  		{
+  			foreach($persons as $p)
+  			{
+  				$array[] = $p->get_login();
+  			}
+  			sort($array, SORT_LOCALE_STRING);
+  
+  			foreach($array as $login)
+  			{
+  				$persons_by_login[] = $persons[$login];
+  			}
+  		}
+  		$obsah_html .= Views::add_computer_user($computer, $persons_by_login);
+  	}
+  	else
+  	{
+  		$obsah_html .= Views::err("Záznam s id=".$_GET["add_user"]." nelze načíst!", FileName);
+  	}
+  	goto OUTPUT;
+  }
+  if(isset($_POST["computer_use"]))
+  {
+  	if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
+  
+  	$menu->set_submenu_file_name(FileName."?detail");
+  	$computer_use = new ComputerUse($_POST["computer_use"]);
+  	$computer_use->set_id($rep->get_new_computer_use_id());
+  
+  	if($computer_use->is_valid())
+  	{
+  		if($first_load)
+  		{
+  			$rep->add_computer_use($computer_use);
+  		}
+  		$obsah_html .= Views::computer_detail($_rw, $rep->get_computer($computer_use->get_computer_id()));
+  	}
+  	else
+  	{
+  		$obsah_html .= Views::err("Záznam nelze vytvořit.".$computer_use->get_all_err());
+  		$obsah_html .= Views::computer_detail($_rw, $rep->get_computer($computer_use->get_computer_id()));
+  	}
+  	goto OUTPUT;
+  }
+  
+  
   /* --- DISABLE --- */
   if(isset($_GET["disable"]))
   {
