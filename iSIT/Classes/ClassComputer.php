@@ -508,6 +508,13 @@ class Computer
     return $rep->get_all_computer_use_by_computer_id($this->get_id());
   }
   
+
+  public function get_string_location()
+  {
+  	$rep = self::$rep;
+  	return $rep->get_location($this->get_location());
+  }
+  
   /****************************** PRIVATE ***********************************/     
 
 

@@ -240,7 +240,12 @@ class Printer
     if($this->_mac == "000000000000") $text = $null; 
     return strtolower($text);
   }
-
+  public function get_location()
+  {
+  	if($this->location == "") return 0;
+  	return $this->location;
+  }
+  
   public function get_id_err()
   {
     return $this->id_err;
@@ -483,6 +488,11 @@ class Printer
     return false;
   }
 
+  public function get_string_location()
+  {
+  	$rep = self::$rep;
+  	return $rep->get_location($this->get_location());
+  }
   /****************************** PRIVATE ***********************************/     
 
 

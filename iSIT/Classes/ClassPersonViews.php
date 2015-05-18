@@ -28,7 +28,7 @@ class PersonViews
       $html.='<table cellpadding="5">
                 <tr>
                   <th><span class="popis"></span></th>
-                  <th><span class="popis">Id</span></th>
+                  <th><span class="popis">Loc</span></th>
                   <th><span class="popis">Jméno</span></th>
                   <th><span class="popis">login</span></th>
                   <th><span class="popis">os. cis.</span></th>
@@ -51,7 +51,7 @@ class PersonViews
           
           $html .= '<tr class="person">
                       <td><a class="hodnota" href="./persons.php?detail='.$person->get_id().'">Detail</a></td>
-                      <td><span class="hodnota">'.$person->get_id().'</span></td>
+                      <td><span class="hodnota">'.$person->get_string_location().'</span></td>
                       <td><span class="hodnota">'.$person->get_full_name(20).'</span></td>
                       <td><span class="hodnota">'.$person->get_login(20).'</span></td>
                       <td><span class="hodnota">'.$person->get_osobni_cislo().'</span></td>
@@ -108,7 +108,7 @@ class PersonViews
           <span class="popis">Osobní číslo:</span><span class="hodnota">'.$person->get_osobni_cislo().'</span>
         </div>
         <div class="information">
-          <span class="popis">Pobočka:</span><span class="hodnota">'.$person->get_pobocka().'</span>
+          <span class="popis">Pobočka:</span><span class="hodnota">'.$person->get_string_location().'</span>
         </div>
         <div class="information">
           <span class="popis">Celé jméno:</span><span class="hodnota">'.$person->get_full_name().'</span>            

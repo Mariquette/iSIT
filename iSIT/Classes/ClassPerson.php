@@ -385,6 +385,12 @@ class Person
     
     return array_merge($computers, $printers);
   }
+  
+  public function get_string_location()
+  {
+  	$rep = self::$rep;
+  	return $rep->get_location($this->get_pobocka());
+  }
 
   /****************************** PRIVATE ***********************************/     
 

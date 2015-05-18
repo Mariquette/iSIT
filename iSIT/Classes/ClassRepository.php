@@ -2636,5 +2636,15 @@ class Repository
     return false;
   }
   
+  public function get_location($location)
+  {
+  	$locations = array("", "group", "institut", "gympl", "skola", "skolka1", "skolka2", "boleslavka");
+  	if(isset($locations[$location])) return $locations[$location];
+  	foreach ($locations as $key => $value)
+  	{
+  		if ($location === $key) return $value;
+  	}
+  	return "";
+  }
 } // end Class
 ?>

@@ -29,7 +29,7 @@ class PrinterViews
       $html.='<table cellpadding="5">
                 <tr>
                   <th><span class="popis"></span></th>
-                  <th><span class="popis">Id</span></th>
+                  <th><span class="popis">Location</span></th>
                   <th><a href="./printers.php?sort=model" class="popis">Model</a></th>
                   <th><span class="popis">IP Address</span></th>
                   <th><span class="popis">BPCS Device</span></th>
@@ -79,7 +79,7 @@ class PrinterViews
 
           $html .= '<tr '.$class.' class="printer">
                       <td><a class="hodnota" href="./printers.php?detail='.$printer->get_id().'">Detail</a></td>
-                      <td><span class="hodnota">'.$printer->get_id().'</span></td>
+                      <td><span class="hodnota">'.$printer->get_string_location().'</span></td>
                       <td><span class="hodnota">'.$printer->get_model(20).'</span></td>
                       <td><span class="hodnota">'.$printer->get_ip("").'</span></td>
                       <td><span class="hodnota">'.'</span></td>
@@ -149,6 +149,9 @@ class PrinterViews
         </div>
         <div class="information">
           <span class="popis">Evidenční číslo:</span><span class="hodnota">'.$printer->get_evidencni_cislo().'</span>            
+        </div>
+        <div class="information">
+          <span class="popis">Location:</span><span class="hodnota">'.$printer->get_string_location().'</span>
         </div>
         <div class="information">
           <span class="popis">Datum pořízení:</span><span class="hodnota">'.$printer->get_datum_porizeni().'</span>

@@ -81,7 +81,7 @@ class ComputerViews
                       <td><a class="hodnota" href="./computers.php?detail='.$computer->get_id().'">Detail</a></td>
                       <td><span class="hodnota">'.$computer->get_id().'</span></td>
                       <td><span class="hodnota">'.$computer->get_model(20).'</span></td>
-                      <td><span class="hodnota">'.$computer->get_location().'</span></td>
+                      <td><span class="hodnota">'.$computer->get_string_location().'</span></td>
                       <td><span class="hodnota">'.$computer->get_seriove_cislo().'</span></td>
                       <td><span class="hodnota">'.$computer->get_evidencni_cislo().'</span></td>
                       <td><span class="hodnota">'.$computer->get_pc_name(20).'</span></td>
@@ -140,7 +140,7 @@ class ComputerViews
           <span class="popis">*Model:</span><span class="hodnota">'.$computer->get_model().'</span>            
         </div>
         <div class="information">
-          <span class="popis">Location:</span><span class="hodnota">'.$computer->get_location().'</span>
+          <span class="popis">Location:</span><span class="hodnota">'.$computer->get_string_location().'</span>
         </div>
         <div class="information">
           <span class="popis">*Sériové číslo:</span><span class="hodnota">'.$computer->get_seriove_cislo().'</span>
