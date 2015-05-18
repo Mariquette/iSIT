@@ -17,6 +17,8 @@ class Repository
   
   private $timer;
   private $show_timer;
+
+  private $isit_db;
   
   public function __construct($dir_root)
   {
@@ -2262,6 +2264,8 @@ class Repository
     $dbUserName = 'isit';
     $dbPasswd = 'heslo';
 
+    $this->isit_db = $dbName;
+    
     if($connectionId = mysql_connect($dbSrv, $dbUserName,$dbPasswd))
     {
       mysql_set_charset('utf8',$connectionId);
@@ -2645,6 +2649,11 @@ class Repository
   		if ($location === $key) return $value;
   	}
   	return "";
+  }
+  
+  public function get_isit_db()
+  {
+  	return $this->isit_db;
   }
 } // end Class
 ?>

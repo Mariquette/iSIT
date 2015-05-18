@@ -8,6 +8,7 @@ class Sablona
   private $file_name;
   private $last_change;
   private $title;
+  private $rep;
   
   public function __construct($file_name, $dir_root = "./", $dir_name = "")
   {
@@ -20,6 +21,8 @@ class Sablona
     $this->last_change = date("d. m. Y G:i", filemtime($this->file_name));
     //$this->title = "iSiT by BQ ".$this->file_name."(".$this->last_change.")";
     $this->title = "iSiT [".substr($this->file_name,-(strlen($this->file_name)),strlen($this->file_name)-4)."]";
+    $this->rep = new Repository("./");
+    
   }
   
   public function get_html($obsah = "", $menu = "", $analytic = "")
@@ -42,7 +45,7 @@ class Sablona
           </head>
           
           <body class="vse">
-            <h1 class="main">iSiT(v4.0 master) by BQ</h1>
+            <h1 class="main">iSiT(v4.0 db:'.$this->rep->get_isit_db().') by BQ</h1>
               <div class="main_menu">
                 '.$menu.'      
               </div>
