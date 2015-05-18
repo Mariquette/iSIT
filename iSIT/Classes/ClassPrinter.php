@@ -16,6 +16,7 @@ class Printer
   private $evidencni_cislo;
   private $ip;
   private $_mac;
+  private $location;
    
   private $id_err;
   private $model_err;
@@ -25,6 +26,7 @@ class Printer
   private $evidencni_cislo_err;
   private $ip_err;
   private $mac_err;
+  private $location_err;
 
 // -----------------------------------------------------------------------------   
     
@@ -71,10 +73,13 @@ class Printer
   {
     return 7;
   }
-
+  static function get_location_index()
+  {
+  	return 8;
+  }
 	static function get_attribs()
   {
-  	return array("id", "model", "seriove_cislo", "aktivni", "datum_porizeni", "evidencni_cislo", "ip", "_mac");	
+  	return array("id", "model", "seriove_cislo", "aktivni", "datum_porizeni", "evidencni_cislo", "ip", "_mac", "location");	
 	}
 
   static function attribs_to_string($text="")
@@ -91,7 +96,7 @@ class Printer
   
   static function get_all_index_names($separator=",")
   {
-    return "'ID'".$separator."'MODEL'".$separator."'SERIOVE_CISLO'".$separator."'AKTIVNI'".$separator."'DATUM_PORIZENI'".$separator."'EVIDENCNI_CISLO'".$separator."'IP'".$separator."'_MAC'";
+    return "'ID'".$separator."'MODEL'".$separator."'SERIOVE_CISLO'".$separator."'AKTIVNI'".$separator."'DATUM_PORIZENI'".$separator."'EVIDENCNI_CISLO'".$separator."'IP'".$separator."'_MAC'".$separator."'LOCATION'";
   }    
   
 // -----------------------------------------------------------------------------    
@@ -116,7 +121,8 @@ class Printer
     $this->evidencni_cislo_err="";
     $this->ip_err="";
     $this->mac_err="";
-        
+    $this->location_err="";
+            
     if($array == false)
     {
       // clear computer
@@ -175,7 +181,10 @@ class Printer
   {
     $this->datum_porizeni = $value;
   }
-      
+  public function set_location($value)
+  {
+  	$this->location = trim($value);
+  }     
 //  ------------------
 //  ---- GETTERS -----
 //  ------------------
@@ -243,7 +252,7 @@ class Printer
   public function get_location()
   {
   	if($this->location == "") return 0;
-  	return $this->location;
+    return $this->location;
   }
   
   public function get_id_err()
@@ -278,7 +287,10 @@ class Printer
   {
     return $this->mac_err;
   }
-
+  public function get_location_err()
+  {
+  	return $this->location_err;
+  }
 //  ------------------
 //  ---- GENERAL -----
 //  ------------------
@@ -294,7 +306,8 @@ class Printer
     $this->evidencni_cislo = "";
     $this->ip = "0.0.0.0";
     $this->_mac = "000000000000";
-        
+    $this->location = ""
+    		;
     $this->obrazek_1 = "";
     $this->obrazek_2 = "";
     $this->obrk_folder = "./";
@@ -305,7 +318,7 @@ class Printer
   // nastavi parametry objektu podle polozek v poli  
   public function load($array)
   {
-    if((is_array($array)) AND (count($array)==8))
+    if((is_array($array)) AND (count($array)==9))
     {
       $this->set_id($array[Printer::get_id_index()]);
       $this->set_model($array[Printer::get_model_index()]);
@@ -315,6 +328,7 @@ class Printer
       $this->set_evidencni_cislo($array[Printer::get_evidencni_cislo_index()]);
       $this->set_ip($array[Printer::get_ip_index()]);
       $this->set_mac(Util::to_real_mac($array[Printer::get_mac_index()]));
+      $this->set_location($array[self::get_location_index()]);
       
       $this->obrazek_1 = "";
       $this->obrazek_2 = "";       
@@ -348,7 +362,7 @@ class Printer
       $array[Printer::get_evidencni_cislo_index()] = $this->evidencni_cislo;
       $array[Printer::get_ip_index()] = $this->ip;
       $array[Printer::get_mac_index()] = Util::to_real_mac($this->_mac);
-      
+      $array[self::get_location_index()] = $this->location;      
       return $array;
   }
 
@@ -363,7 +377,8 @@ class Printer
             evidencni_cislo => ".$this->evidencni_cislo." <br>
             ip => ".$this->ip." <br>
             mac => <b>".$this->_mac."</b> <br>
-            
+            location => ".$this->location." <br>
+                        		
             obrazek_1 => ".$this->obrazek_1." <br>
             obrazek_2 => ".$this->obrazek_2." <br>    
             ";
@@ -421,6 +436,12 @@ class Printer
       $return = $false;
       $this->ip_err = "Parametr \"IP\" musí být vyplněn skutečnou IP adresou (xxx.xxx.xxx.xxx, 0>=xxx<=255).";
     } 
+    
+    if(($this->location != "")&&(!Test::is_number($this->location)))
+    {
+    	$return = $false;
+    	$this->location_err = "Parametr \"Location\" musí být číslo (znaky 0-9).";
+    }
     
     $rep = self::$rep;
     

@@ -706,7 +706,7 @@ class Repository
   
   public function get_every_printer($key = "seriove_cislo")
   {
-    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac FROM printers";
+    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac, location FROM printers";
         
     if($key == "id") return $this->isit_get_all($sql,"Printer",Printer::get_id_index());
     if($key == "seriove_cislo") return $this->isit_get_all($sql,"Printer",Printer::get_seriove_cislo_index());
@@ -718,7 +718,7 @@ class Repository
 
   public function get_all_printer($key = "seriove_cislo")
   {
-    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac FROM printers WHERE aktivni = 1";
+    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac, location FROM printers WHERE aktivni = 1";
         
     if($key == "id") return $this->isit_get_all($sql,"Printer",Printer::get_id_index());
     if($key == "seriove_cislo") return $this->isit_get_all($sql,"Printer",Printer::get_seriove_cislo_index());
@@ -730,7 +730,7 @@ class Repository
 
   public function get_all_disabled_printer($key = "seriove_cislo")
   {
-    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac FROM printers WHERE aktivni = 1";
+    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac, location FROM printers WHERE aktivni = 1";
         
     if($key == "id") return $this->isit_get_all($sql,"Printer",Printer::get_id_index());
     if($key == "seriove_cislo") return $this->isit_get_all($sql,"Printer",Printer::get_seriove_cislo_index());
@@ -743,7 +743,7 @@ class Repository
   
   public function get_all_hradec_printer($key = "seriove_cislo")
   {
-    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac FROM printers WHERE evidencni_cislo LIKE '500%'";
+    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac, location FROM printers WHERE evidencni_cislo LIKE '500%'";
         
     if($key == "id") return $this->isit_get_all($sql,"Printer",Printer::get_id_index());
     if($key == "seriove_cislo") return $this->isit_get_all($sql,"Printer",Printer::get_seriove_cislo_index());
@@ -755,7 +755,7 @@ class Repository
 
   public function get_all_ssc_printer($key = "seriove_cislo")
   {
-    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac FROM printers WHERE evidencni_cislo LIKE '400%'";
+    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac, location FROM printers WHERE evidencni_cislo LIKE '400%'";
         
     if($key == "id") return $this->isit_get_all($sql,"Printer",Printer::get_id_index());
     if($key == "seriove_cislo") return $this->isit_get_all($sql,"Printer",Printer::get_seriove_cislo_index());
@@ -767,7 +767,7 @@ class Repository
 
   public function get_all_liberec_printer($key = "seriove_cislo")
   {
-    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac FROM printers WHERE evidencni_cislo LIKE '100%' OR evidencni_cislo LIKE '150%'";
+    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac, location FROM printers WHERE evidencni_cislo LIKE '100%' OR evidencni_cislo LIKE '150%'";
         
     if($key == "id") return $this->isit_get_all($sql,"Printer",Printer::get_id_index());
     if($key == "seriove_cislo") return $this->isit_get_all($sql,"Printer",Printer::get_seriove_cislo_index());
@@ -779,7 +779,7 @@ class Repository
 
   public function get_all_nezarazene_printer($key = "seriove_cislo")
   {
-    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac FROM printers WHERE evidencni_cislo NOT LIKE '100%' AND evidencni_cislo NOT LIKE '150%' AND evidencni_cislo NOT LIKE '400%' AND evidencni_cislo NOT LIKE '500%'";
+    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac, location FROM printers WHERE evidencni_cislo NOT LIKE '100%' AND evidencni_cislo NOT LIKE '150%' AND evidencni_cislo NOT LIKE '400%' AND evidencni_cislo NOT LIKE '500%'";
         
     if($key == "id") return $this->isit_get_all($sql,"Printer",Printer::get_id_index());
     if($key == "seriove_cislo") return $this->isit_get_all($sql,"Printer",Printer::get_seriove_cislo_index());
@@ -791,7 +791,7 @@ class Repository
   
   public function get_printer($id)
   {
-    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac FROM printers WHERE id = $id";
+    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac, location FROM printers WHERE id = $id";
     return $this->isit_get_one($sql,"Printer");
   }
 

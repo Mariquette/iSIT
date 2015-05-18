@@ -256,6 +256,11 @@ $html.='<p>
             <span class="err">'.$printer->get_model_err().'</span>
           </div>
           <div class="editable">
+            <span class="popis">Location:</span>
+            <input type="text" maxlength="10" size="4" name="printer['.Printer::get_location_index().']" value="'.$printer->get_location().'">
+            <span class="err">'.$printer->get_location_err().'</span>
+          </div>
+           <div class="editable">
             <span class="popis">IP Address:</span>
             <input type="text" maxlength="15" size="15" name="printer['.Printer::get_ip_index().']" value="'.$printer->get_ip().'">
             <span class="err">'.$printer->get_ip_err().'</span>
@@ -329,6 +334,11 @@ $html.='<p>
             <span class="popis">Model:</span>
             <input type="text" maxlength="100" size="40" name="printer['.Printer::get_model_index().']" value="'.$printer->get_model().'">
             <span class="err">'.$printer->get_model_err().'</span>
+          </div>
+          <div class="editable">
+            <span class="popis">Location:</span>
+            <input type="text" maxlength="10" size="4" name="printer['.Printer::get_location_index().']" value="'.$printer->get_location().'">
+            <span class="err">'.$printer->get_location_err().'</span>
           </div>
           <div class="editable">
             <span class="popis">IP Address:</span>
