@@ -42,7 +42,7 @@ class Sablona
           </head>
           
           <body class="vse">
-            <h1 class="main">iSiT(v3.2) by BQ</h1>
+            <h1 class="main">iSiT(v4.0 master) by BQ</h1>
               <div class="main_menu">
                 '.$menu.'      
               </div>
