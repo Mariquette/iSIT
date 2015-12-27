@@ -56,17 +56,41 @@
     }   
   }  
   
-  if($_auth == Util::iSIT_AUTH_NO_LOGED)
+  if(($_auth == Util::iSIT_AUTH_NO_LOGED)AND(!isset($_GET["logout"])))
   {    
     $obsah_html.=Views::login_form("");    
     goto OUTPUT;      
   }
-
-  if(($_auth == Util::iSIT_AUTH_R)OR($_auth == Util::iSIT_AUTH_RW))
+  
+  if(($_auth == Util::iSIT_AUTH_NO_LOGED)AND(isset($_GET["logout"])))
+  {
+  	$obsah_html.='<div class="informace">Successfully loged out,<br><br> by :)</div>';
+  	goto OUTPUT;
+  }
+  
+  if((($_auth == Util::iSIT_AUTH_R)OR($_auth == Util::iSIT_AUTH_RW))AND(!isset($_POST["log_in"])))
   {
     // zobraz moznost odhlaseni
     $obsah_html.=Views::logout_form();
     goto OUTPUT;      
+  }
+  
+  if((($_auth == Util::iSIT_AUTH_R)OR($_auth == Util::iSIT_AUTH_RW))AND(isset($_POST["log_in"])))
+  {
+  	$obsah_html .=
+  	'<div class="informace">
+    <ul>
+      <li>Databáze <a href="./events.php">Notes</a> aktuálně obsahuje '.count($rep->get_all_event()).' záznamů.</li>
+      <li>Databáze <a href="./persons.php">Persons</a> aktuálně obsahuje '.count($rep->get_all_person()).' záznamů.</li>
+      <li>Databáze <a href="./computers.php">Computers</a> aktuálně obsahuje '.count($rep->get_all_computer()).' záznamů.</li>
+      <li>Databáze <a href="./printers.php">Printers</a> aktuálně obsahuje '.count($rep->get_all_printer()).' záznamů.</li>
+      <li>Databáze <a href="./links.php">Links</a> aktuálně obsahuje '.count($rep->get_all_link()).' záznamů.</li>
+    </ul>
+  	
+    </div>';
+  	
+  	$obsah_html.='<a class="odhlasit" href= "login.php">Odhlásit</a>';
+  	goto OUTPUT;
   }
 
   OUTPUT:
