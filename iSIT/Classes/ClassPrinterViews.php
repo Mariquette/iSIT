@@ -29,13 +29,13 @@ class PrinterViews
       $html.='<table cellpadding="5">
                 <tr>
                   <th><span class="popis"></span></th>
-                  <th><span class="popis">Location</span></th>
+                  <th><a href="./printers.php?sort=location" class="popis">Location</a></th>
                   <th><a href="./printers.php?sort=model" class="popis">Model</a></th>
-                  <th><span class="popis">IP Address</span></th>
-                  <th><span class="popis">BPCS Device</span></th>
-                  <th><span class="popis">MAC Address</span></th>
-                  <th><span class="popis">SerNum</span></th>
-                  <th><span class="popis">EvNum</span></th>
+                  <th><a href="./printers.php?sort=name" class="popis">Name</a></th>
+      			  <th><a href="./printers.php?sort=ip" class="popis">IP Address</a></th>
+                  <th><a href="./printers.php?sort=mac" class="popis">MAC Address</a></th>
+                  <th><a href="./printers.php?sort=seriove_cislo" class="popis">SerNum</a></th>
+                  <th><a href="./printers.php?sort=evidencni_cislo" class="popis">EvNum</a></th>
                   <th><a href="./printers.php?sort=datum_porizeni" class="popis">Datum pořízení</a></th>
                   <th><span class="popis">Documents</span></th>
                   <th><span class="popis">Users</span></th>
@@ -81,8 +81,8 @@ class PrinterViews
                       <td><a class="hodnota" href="./printers.php?detail='.$printer->get_id().'">Detail</a></td>
                       <td><span class="hodnota">'.$printer->get_string_location().'</span></td>
                       <td><span class="hodnota">'.$printer->get_model(20).'</span></td>
+                      <td><span class="hodnota">'.$printer->get_name(10).'</span></td>
                       <td><span class="hodnota">'.$printer->get_ip("").'</span></td>
-                      <td><span class="hodnota">'.'</span></td>
                       <td><span class="hodnota">'.Util::to_friendly_mac($printer->get_mac(""),"").'</span></td>
                       <td><span class="hodnota">'.$printer->get_seriove_cislo().'</span></td>
                       <td><span class="hodnota">'.$printer->get_evidencni_cislo().'</span></td>
@@ -137,6 +137,9 @@ class PrinterViews
         </div>
         <div class="information">
           <span class="popis">Model:</span><span class="hodnota">'.$printer->get_model().'</span>            
+        </div>
+        <div class="information">
+          <span class="popis">Name:</span><span class="hodnota">'.$printer->get_name().'</span>            
         </div>
         <div class="information">
           <span class="popis">IP Address:</span><span class="hodnota"><a href="http://'.$printer->get_ip().'">'.$printer->get_ip("").'</a></span>            
@@ -256,6 +259,11 @@ $html.='<p>
             <span class="err">'.$printer->get_model_err().'</span>
           </div>
           <div class="editable">
+            <span class="popis">Name:</span>
+            <input type="text" maxlength="15" size="15" name="printer['.Printer::get_name_index().']" value="'.$printer->get_name().'">
+            <span class="err">'.$printer->get_name_err().'</span>
+          </div>
+          <div class="editable">
             <span class="popis">Location:</span>
             <input type="text" maxlength="10" size="4" name="printer['.Printer::get_location_index().']" value="'.$printer->get_location().'">
             <span class="err">'.$printer->get_location_err().'</span>
@@ -336,6 +344,11 @@ $html.='<p>
             <span class="err">'.$printer->get_model_err().'</span>
           </div>
           <div class="editable">
+            <span class="popis">Name:</span>
+            <input type="text" maxlength="15" size="15" name="printer['.Printer::get_name_index().']" value="'.$printer->get_name().'">
+            <span class="err">'.$printer->get_name_err().'</span>
+          </div>
+          <div class="editable">
             <span class="popis">Location:</span>
             <input type="text" maxlength="10" size="4" name="printer['.Printer::get_location_index().']" value="'.$printer->get_location().'">
             <span class="err">'.$printer->get_location_err().'</span>
@@ -405,6 +418,9 @@ $html.= '
 
         <div class="information">
           <span class="popis">Model:</span><span class="hodnota">'.$printer->get_model().'</span>            
+        </div>
+        <div class="information">
+          <span class="popis">Name:</span><span class="hodnota">'.$printer->get_name().'</span>            
         </div>
         <div class="information">
           <span class="popis">IP Address:</span><span class="hodnota"><a href="http://'.$printer->get_ip().'">'.$printer->get_ip().'</a></span>            

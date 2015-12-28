@@ -1,8 +1,6 @@
 https://www.youtube.com/watch?v=ptK9-CNms98
 https://www.howtoforge.com/tutorial/install-git-and-github-on-ubuntu-14.04/
 
-test
-
 instalace ubuntu
 ================
 $ sudo apt-get install mysql-server
@@ -28,8 +26,16 @@ $dbName = 'isit';
 $dbUserName = 'isit';
 $dbPasswd = 'heslo';
 
-$ mysql -u isit -p isit < /var/www/html/iSIT/isit_v4-db-dump.sql 
+? $ mysql -u isit -p isit < /var/www/html/iSIT/isit_v4-db-dump-structure.sql 
+? $ mysql -u isit -p isit < /var/www/html/iSIT/isit_v4-db-dump.sql 
 
 - http://localhost/iSIT
 
 
+nastaveni delky automatickeho odhlaseni (2h)
+=======================================
+/etc/php5/apache2/php.ini
+-------------------------
+session.gc_maxlifetime = 7200
+
+s
