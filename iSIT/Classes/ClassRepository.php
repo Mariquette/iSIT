@@ -55,21 +55,21 @@ class Repository
         return false; //array(); //die( print_r(splsrv_errors(),true));
       }
   
-      $result = mysql_query($sql, $conn);
+      $result = mysqli_query($conn, $sql);
       
       if(!$result)
       {
-        echo "Repository->isit_get_all(): mysql_query($sql):false<br>";
+        echo "Repository->isit_get_all(): mysqli_query($conn, $sql):false<br>";
         return false; //array();
       }
       
       $data = array();
-      while($row = mysql_fetch_row($result))
+      while($row = mysqli_fetch_row($result))
       {
         $data[] = $row;
       }
       
-      mysql_free_result($result);    
+      mysqli_free_result($result);    
       // mysql_close($conn);   
       
       if (isset($data[0])) return new $class($data[0]);
@@ -86,21 +86,22 @@ class Repository
         return array(); //die( print_r(splsrv_errors(),true));
       }
   
-      $result = mysql_query($sql, $conn);
+      //$result = mysqli_query($conn,$sql);
+      $result = mysqli_query($conn, $sql);
       
       if(!$result)
       {
-        echo "Repository->isit_get_all(): mysql_query($sql):false<br>";
+        echo "Repository->isit_get_all(): mysqli_query($conn, $sql):false<br>";
         return array();
       }
       
       $data = array();
-      while($row = mysql_fetch_row($result)) //mysql_fetch_assoc($result))
+      while($row = mysqli_fetch_row($result)) //mysql_fetch_assoc($result))
       {
         $data[$row[$key]] = new $class($row);
       }
       
-      mysql_free_result($result);    
+      mysqli_free_result($result);    
       // mysql_close($conn);   
       
       return $data;          
@@ -114,7 +115,7 @@ class Repository
         return false; //array(); //die( print_r(splsrv_errors(),true));
       }
           
-      $result = mysql_query($sql, $conn);
+      $result = mysqli_query($conn,$sql);
       if(!$result) echo "<br>$sql<br>";
       //$result = mysql_affected_rows();
           
@@ -175,6 +176,7 @@ class Repository
 			$tables[] = new ISIT_Table("Printer Uses", "printer_uses", "PrinterUse");
 			$tables[] = new ISIT_Table("Requierements", "requirements", "Requirement");
 			$tables[] = new ISIT_Table("Computer Uses", "computer_uses", "ComputerUse");
+			$tables[] = new ISIT_Table("Locations", "locations", "Locations");
 			
 			return $tables;
 		}
@@ -2266,10 +2268,13 @@ class Repository
 
     $this->isit_db = $dbName;
     
-    if($connectionId = mysql_connect($dbSrv, $dbUserName,$dbPasswd))
+    //if($connectionId = mysql_connect($dbSrv, $dbUserName,$dbPasswd))
+    if($connectionId = mysqli_connect($dbSrv, $dbUserName,$dbPasswd))
     {
-      mysql_set_charset('utf8',$connectionId);
-      $id_db = mysql_select_db($dbName); //připojí se k databázi dpimage_cz
+      //mysql_set_charset('utf8',$connectionId);
+      mysqli_set_charset($connectionId,'utf8');
+      //$id_db = mysql_select_db($dbName);
+      $id_db = mysqli_select_db($connectionId,$dbName);
       if (!$id_db)
       {
         die ("Repository::connect_isit_db(): Nepodarilo se pripojit databazi!");
@@ -2645,6 +2650,52 @@ class Repository
    * LOCATION *
    ********** */
   
+  public function save_location($obj)
+  {
+  	return $this->isit_save($obj);
+  }
+  
+  public function add_location($obj)
+  {
+  	return $this->isit_add($obj);
+  }
+  
+  public function get_new_location_id()
+  {
+  	$new_id=0;
+  	if($pole = $this->get_every_location())
+  	{
+  		foreach($pole as $item)
+  		{
+  			if($item->get_id()>$new_id)$new_id = $item->get_id();
+  		}
+  		return $new_id + 1;
+  	}
+  	return $new_id;
+  }
+  
+  public function get_every_location()
+  {
+  	$sql = "SELECT id, addr, popis, aktivni, name FROM locations";
+  	 
+  	return $this->isit_get_all($sql,"Location");
+  }
+  
+  public function get_all_location()
+  {
+  	$sql = "SELECT id, addr, popis, aktivni, name FROM locations WHERE aktivni = 1";
+  	 
+  	return $this->isit_get_all($sql,"Location");
+  }
+  
+  public function get_location($id)
+  {
+  	$sql = "SELECT id, addr, popis, aktivni, name FROM locations WHERE id = $id";
+  	 
+  	return $this->isit_get_one($sql,"Location");
+  }
+
+  /*
   public function get_location($location)
   {
   	$locations = array("", "group", "institut", "gympl", "skola", "skolka1", "skolka2", "boleslavka");
@@ -2655,6 +2706,7 @@ class Repository
   	}
   	return "";
   }
+  */
   
   public function get_isit_db()
   {

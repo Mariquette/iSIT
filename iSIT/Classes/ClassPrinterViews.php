@@ -263,11 +263,22 @@ $html.='<p>
             <input type="text" maxlength="15" size="15" name="printer['.Printer::get_name_index().']" value="'.$printer->get_name().'">
             <span class="err">'.$printer->get_name_err().'</span>
           </div>
-          <div class="editable">
+
+           <div class="editable">
             <span class="popis">Location:</span>
-            <input type="text" maxlength="10" size="4" name="printer['.Printer::get_location_index().']" value="'.$printer->get_location().'">
-            <span class="err">'.$printer->get_location_err().'</span>
-          </div>
+            
+        	<select name="printer['.Printer::get_location_index().']">';
+  
+    		$locations = $printer->get_all_location(); 
+    		$list = '   <option value="" selected>... location ... ('.count($locations).')</option>';
+  			foreach($locations as $obj)
+  			{
+  				$list .= '<option value="'.$obj->get_id().'">'.$obj->get_name().'</option>';
+  			}
+    		$html.=$list;
+    		$html.= ' </select>
+          </div> 	
+    				
            <div class="editable">
             <span class="popis">IP Address:</span>
             <input type="text" maxlength="15" size="15" name="printer['.Printer::get_ip_index().']" value="'.$printer->get_ip().'">
@@ -348,11 +359,29 @@ $html.='<p>
             <input type="text" maxlength="15" size="15" name="printer['.Printer::get_name_index().']" value="'.$printer->get_name().'">
             <span class="err">'.$printer->get_name_err().'</span>
           </div>
-          <div class="editable">
-            <span class="popis">Location:</span>
-            <input type="text" maxlength="10" size="4" name="printer['.Printer::get_location_index().']" value="'.$printer->get_location().'">
-            <span class="err">'.$printer->get_location_err().'</span>
-          </div>
+	
+       	<div class="editable">
+            <span class="popis">Location:</span>     
+        	<select name="printer['.Printer::get_location_index().']">';
+  
+    		$locations = $printer->get_all_location(); 
+    		$list = '';
+  			foreach($locations as $obj)
+  			{
+  				if($obj->get_id()==$printer->get_location())
+  				{ 
+  					$list .= '<option selected value="'.$obj->get_id().'">'.$obj->get_name().'</option>';
+  				}
+  				else 
+  				{
+  					$list .= '<option value="'.$obj->get_id().'">'.$obj->get_name().'</option>';
+  				}
+  				
+  			}
+    		$html.=$list;
+    		$html.= ' </select>
+        </div>            		
+            		
           <div class="editable">
             <span class="popis">IP Address:</span>
             <input type="text" maxlength="15" size="15" name="printer['.Printer::get_ip_index().']" value="'.$printer->get_ip().'">

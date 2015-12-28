@@ -37,6 +37,7 @@
     if($_auth==Util::iSIT_AUTH_RW)$submenu->add_item(new SimpleLink("create",FileName."?create"));
     $submenu->add_item(new SimpleLink("detail list",FileName."?detail_list"));
   $menu->set_submenu($submenu);
+  $menu->add_item(new SimpleLink("Locations","./locations.php"));
   $menu->add_item(new SimpleLink("Persons","./persons.php"));
   $menu->add_item(new SimpleLink("Computers","./computers.php"));
   $menu->add_item(new SimpleLink("Printers","./printers.php"));

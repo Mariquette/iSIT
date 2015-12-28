@@ -33,11 +33,11 @@ class ComputerViews
                   <th><span class="popis"></span></th>
                   <th><span class="popis">Id</span></th>
                   <th><a href="./computers.php?sort=model" class="popis">Model</a></th>
-                  <th><span class="popis">Location</span></th>
-                  <th><span class="popis">Stag</span></th>
-                  <th><span class="popis">EvNum</span></th>
-                  <th><span class="popis">PC Name</span></th>
-                  <th><span class="popis">TeamViewer</span></th>
+                  <th><a href="./computers.php?sort=location" class="popis">Location</a></th>
+                  <th><a href="./computers.php?sort=seriove_cislo" class="popis">Stag</a></th>
+                  <th><a href="./computers.php?sort=evidencni_cislo" class="popis">EvNum</a></th>
+                  <th><a href="./computers.php?sort=pc_name" class="popis">PC Name</a></th>
+                  <th><a href="./computers.php?sort=teamviewer" class="popis">TeamViewer</a></th>
                   <th><a href="./computers.php?sort=datum_porizeni" class="popis">Datum pořízení</a></th>
                   <th><span class="popis">Users</span></th>
       			  <th><span class="popis">Documents</span></th>
@@ -269,11 +269,22 @@ class ComputerViews
             <input type="text" maxlength="100" size="40" name="computer['.Computer::get_model_index().']" value="'.$computer->get_model().'">
             <span class="err">'.$computer->get_model_err().'</span>
           </div>
-          <div class="editable">
+            		
+           <div class="editable">
             <span class="popis">Location:</span>
-            <input type="text" maxlength="10" size="4" name="computer['.Computer::get_location_index().']" value="'.$computer->get_location().'">
-            <span class="err">'.$computer->get_location_err().'</span>
-          </div>
+            
+        	<select name="computer['.Computer::get_location_index().']">';
+  
+    		$locations = $computer->get_all_location(); 
+    		$list = '   <option value="" selected>... location ... ('.count($locations).')</option>';
+  			foreach($locations as $obj)
+  			{
+  				$list .= '<option value="'.$obj->get_id().'">'.$obj->get_name().'</option>';
+  			}
+    		$html.=$list;
+    		$html.= ' </select>
+          </div> 		
+            		
           <div class="editable">
             <span class="popis">*Sériové číslo:</span>
             <input type="text" maxlength="20" size="20" name="computer['.Computer::get_seriove_cislo_index().']" value="'.$computer->get_seriove_cislo().'">
@@ -348,11 +359,29 @@ class ComputerViews
             <input type="text" maxlength="100" size="40" name="computer['.Computer::get_model_index().']" value="'.$computer->get_model().'">
             <span class="err">'.$computer->get_model_err().'</span>
           </div>
-          <div class="editable">
-            <span class="popis">Location:</span>
-            <input type="text" maxlength="10" size="4" name="computer['.Computer::get_location_index().']" value="'.$computer->get_location().'">
-            <span class="err">'.$computer->get_location_err().'</span>
-          </div>          
+
+       	<div class="editable">
+            <span class="popis">Location:</span>     
+        	<select name="computer['.Computer::get_location_index().']">';
+  
+    		$locations = $computer->get_all_location(); 
+    		$list = '';
+  			foreach($locations as $obj)
+  			{
+  				if($obj->get_id()==$computer->get_location())
+  				{ 
+  					$list .= '<option selected value="'.$obj->get_id().'">'.$obj->get_name().'</option>';
+  				}
+  				else 
+  				{
+  					$list .= '<option value="'.$obj->get_id().'">'.$obj->get_name().'</option>';
+  				}
+  				
+  			}
+    		$html.=$list;
+    		$html.= ' </select>
+        </div>
+            		
           <div class="editable">
             <span class="popis">*Sériové číslo:</span>
             <input type="text" maxlength="20" size="20" name="computer['.Computer::get_seriove_cislo_index().']" value="'.$computer->get_seriove_cislo().'">

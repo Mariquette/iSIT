@@ -28,10 +28,10 @@ class PersonViews
       $html.='<table cellpadding="5">
                 <tr>
                   <th><span class="popis"></span></th>
-                  <th><span class="popis">Loc</span></th>
+                  <th><a href="./persons.php?sort=location" class="popis">location</a></th>
                   <th><span class="popis">Jméno</span></th>
-                  <th><span class="popis">login</span></th>
-                  <th><span class="popis">os. cis.</span></th>
+                  <th><a href="./persons.php?sort=login" class="popis">login</a></th>
+                  <th><a href="./persons.php?sort=osobni_cislo" class="popis">os. cis.</a></th>
                   <th><span class="popis"></span></th>
                   <th><span class="popis"></span></th>
                 </tr>
@@ -226,9 +226,19 @@ $html.= '<p>
           </div>
           <div class="editable">
             <span class="popis">Pobočka:</span>
-            <input type="text" maxlength="10" size="10" name="person['.Person::get_pobocka_index().']" value="'.$person->get_pobocka().'">
-            <span class="err">'.$person->get_pobocka_err().'</span>
+            
+        	<select name="person['.Person::get_pobocka_index().']">';
+  
+    		$locations = $person->get_all_location(); 
+    		$list = '   <option value="" selected>... location ... ('.count($locations).')</option>';
+  			foreach($locations as $obj)
+  			{
+  				$list .= '<option value="'.$obj->get_id().'">'.$obj->get_name().'</option>';
+  			}
+    		$html.=$list;
+    		$html.= ' </select>
           </div>
+              		          		
           <div class="editable">
             <span class="popis">Aktivni:</span>
             <input type="hidden" name="person['.Person::get_aktivni_index().']" value="0">
@@ -264,6 +274,7 @@ $html.= '<p>
     }
     
     $person->set_obrk_folder("../persons/img/");    
+        
     $html = '
       <fieldset class="person'.$valid_test.'">
         <legend class="person">Edit</legend> 
@@ -288,11 +299,30 @@ $html.= '<p>
             <input type="text" maxlength="100" size="40" name="person['.Person::get_login_index().']" value="'.$person->get_login().'">
             <span class="err">'.$person->get_login_err().'</span>
           </div>          
-          <div class="editable">
+
+		<div class="editable">
             <span class="popis">Pobočka:</span>
-            <input type="text" maxlength="10" size="10" name="person['.Person::get_pobocka_index().']" value="'.$person->get_pobocka().'">
-            <span class="err">'.$person->get_pobocka_err().'</span>
-          </div>          
+            
+        	<select name="person['.Person::get_pobocka_index().']">';
+  
+    		$locations = $person->get_all_location(); 
+    		$list = '';
+  			foreach($locations as $obj)
+  			{
+  				if($obj->get_id()==$person->get_pobocka())
+  				{ 
+  					$list .= '<option selected value="'.$obj->get_id().'">'.$obj->get_name().'</option>';
+  				}
+  				else 
+  				{
+  					$list .= '<option value="'.$obj->get_id().'">'.$obj->get_name().'</option>';
+  				}
+  				
+  			}
+    		$html.=$list;
+    		$html.= ' </select>
+        </div>
+    				            		
           <div class="editable">
             <span class="popis">Aktivni:</span>
             <input type="hidden" name="person['.Person::get_aktivni_index().']" value="0">
