@@ -524,7 +524,7 @@
 
   $timer = new Timer();
   
-  $all_printers = $rep->get_all_printer();
+  $all = $rep->get_all_printer();
   $all_temp = array();
   $all_sorted = array();
   
@@ -532,7 +532,7 @@
   {
     if($_GET["sort"]=="model")
     {
-      foreach($all_printers as $obj)
+      foreach($all as $obj)
       {
         if($obj->get_model()=="")
         {
@@ -544,9 +544,100 @@
         }
       }
     }
+    
+    if($_GET["sort"]=="location")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_location()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_location()][] = $obj;
+    		}
+    	}
+    }
+    
+    if($_GET["sort"]=="seriove_cislo")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_seriove_cislo()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_seriove_cislo()][] = $obj;
+    		}
+    	}
+    }
+    
+    if($_GET["sort"]=="evidencni_cislo")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_evidencni_cislo()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_evidencni_cislo()][] = $obj;
+    		}
+    	}
+    }
+    
+    if($_GET["sort"]=="mac")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_mac()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_mac()][] = $obj;
+    		}
+    	}
+    }
+    
+    if($_GET["sort"]=="ip")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_ip()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_ip()][] = $obj;
+    		}
+    	}
+    }
+
+    if($_GET["sort"]=="name")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_name()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_name()][] = $obj;
+    		}
+    	}
+    }
+    
     if($_GET["sort"]=="datum_porizeni")
     {
-      foreach($all_printers as $obj)
+      foreach($all as $obj)
       {
         if($obj->get_datum_porizeni()=="")
         {
@@ -569,9 +660,9 @@
     }
   }
   
-  if(count($all_sorted)>0)  $all_printers = $all_sorted;
+  if(count($all_sorted)>0)  $all = $all_sorted;
   
-  $obsah_html .= Views::printer_list($all_printers, "AllPrinters (".count($all_printers).")");
+  $obsah_html .= Views::printer_list($all, "AllPrinters (".count($all).")");
     
   $timer->stop();
   //$timer->echo_time("printers.php?list: ");
