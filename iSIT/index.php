@@ -54,8 +54,32 @@
     $rep->export_to_csv($rep->get_all_link(),"2013-04-08-links.csv");
     $rep->export_to_csv($rep->get_all_backup_schedule(),"2013-04-08-backup_schedules.csv");
     */
-        
-    $obsah_html .=     
+
+  
+  if($_auth == Util::iSIT_AUTH_NO_LOGED)
+  {
+  	$obsah_html .=Views::login_form("");
+  }
+  
+  if(($_auth == Util::iSIT_AUTH_R)OR($_auth == Util::iSIT_AUTH_RW))
+  {
+  	$obsah_html .=
+  	'<div class="informace">
+    <ul>
+      <li>Databáze <a href="./events.php">Notes</a> aktuálně obsahuje '.count($rep->get_all_event()).' záznamů.</li>
+      <li>Databáze <a href="./persons.php">Persons</a> aktuálně obsahuje '.count($rep->get_all_person()).' záznamů.</li>
+      <li>Databáze <a href="./computers.php">Computers</a> aktuálně obsahuje '.count($rep->get_all_computer()).' záznamů.</li>
+      <li>Databáze <a href="./printers.php">Printers</a> aktuálně obsahuje '.count($rep->get_all_printer()).' záznamů.</li>
+      <li>Databáze <a href="./links.php">Links</a> aktuálně obsahuje '.count($rep->get_all_link()).' záznamů.</li>
+    </ul>
+  	
+    </div>';
+  	
+  	$obsah_html.='<a class="odhlasit" href= "login.php">Odhlásit</a>';
+  	
+  }
+  
+    /*$obsah_html .=     
     '<div class="informace">
     <ul>
       <li>Databáze <a href="./events.php">Notes</a> aktuálně obsahuje '.count($rep->get_all_event()).' záznamů.</li>
@@ -66,7 +90,9 @@
     </ul>
     
     </div>'; 
-
+    
+	*/
+  
     /*
     foreach ($rep->bpcs_get_all_g_device_v2() as $obj)
     {
@@ -74,6 +100,7 @@
     }
     */
 
+  /*
     if(Util::get_auth()!=Util::iSIT_AUTH_NO_LOGED)
     {
       $obsah_html.='<a class="odhlasit" href= "login.php">Odhlásit</a>';
@@ -82,7 +109,7 @@
     {
       $obsah_html.='<a class="prihlasit" href= "login.php">Přihlásit</a>';
     }
+    */
     echo $stranka->get_html($obsah_html, $menu->get_html());
    
-
 ?>
