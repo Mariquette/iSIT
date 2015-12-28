@@ -23,6 +23,7 @@
   $menu = new Menu(FileName);
   $menu->add_item(new SimpleLink("Home","./index.php"));
   $menu->add_item(new SimpleLink("Notes","./events.php"));
+  $menu->add_item(new SimpleLink("Locations","./locations.php"));
   $menu->add_item(new SimpleLink("Persons","./persons.php"));
   $menu->add_item(new SimpleLink("Computers","./computers.php"));
   $menu->add_item(new SimpleLink("Printers","./printers.php"));
@@ -410,3 +411,10 @@
    
 
 ?>
+
+ <select name="cars">
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="fiat">Fiat</option>
+  <option value="audi">Audi</option>
+</select>

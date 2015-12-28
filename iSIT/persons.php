@@ -32,6 +32,7 @@
   $menu = new Menu(FileName);
   $menu->add_item(new SimpleLink("Home","./index.php"));
   $menu->add_item(new SimpleLink("Notes","./events.php"));
+  $menu->add_item(new SimpleLink("Locations","./locations.php"));
   $menu->add_item(new SimpleLink("Persons","./persons.php"));
   $submenu = new Menu(FileName,"submenu");
   $submenu->add_item(new SimpleLink("seznam",FileName."?list"));
@@ -405,6 +406,72 @@
   $timer = new Timer();
     
   $all = $rep->get_all_person();
+  
+  //===
+  $all_temp = array();
+  $all_sorted = array();
+  
+  if(isset($_GET["sort"]))
+  {
+  	if($_GET["sort"]=="location")
+  	{
+  		foreach($all as $obj)
+  		{
+  			if($obj->get_pobocka()=="")
+  			{
+  				$all_temp["_no_value"][]=$obj;
+  			}
+  			else
+  			{
+  				$all_temp[$obj->get_pobocka()][] = $obj;
+  			}
+  		}
+  	}
+  	
+  	if($_GET["sort"]=="login")
+  	{
+  		foreach($all as $obj)
+  		{
+  			if($obj->get_login()=="")
+  			{
+  				$all_temp["_no_value"][]=$obj;
+  			}
+  			else
+  			{
+  				$all_temp[$obj->get_login()][] = $obj;
+  			}
+  		}
+  	}
+  	
+  	if($_GET["sort"]=="osobni_cislo")
+  	{
+  		foreach($all as $obj)
+  		{
+  			if($obj->get_osobni_cislo()=="")
+  			{
+  				$all_temp["_no_value"][]=$obj;
+  			}
+  			else
+  			{
+  				$all_temp[$obj->get_osobni_cislo()][] = $obj;
+  			}
+  		}
+  	}
+  
+  }
+  
+  ksort($all_temp);
+  foreach($all_temp as $pole)
+  {
+  	foreach($pole as $obj)
+  	{
+  		$all_sorted[] = $obj;
+  	}
+  }
+  
+  if(count($all_sorted)>0)  $all = $all_sorted;
+  
+  //===
   
   $obsah_html .= Views::person_list($all, "AllPersons (".count($all).")");  
 

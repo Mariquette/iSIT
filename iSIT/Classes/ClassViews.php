@@ -207,6 +207,41 @@ class Views
   {
     return RequirementViews::_delete($comment);
   }
+  
+  //  * ********************************************************************** *
+  //  *                            LOCATIONS                                   *
+  //  * ********************************************************************** *
+  
+  //  LIST
+  static function location_list($list)
+  {
+  	return LocationViews::_list($list);
+  }
+  //  DETAIL LIST
+  static function location_detail_list($rw, $list)
+  {
+  	return LocationViews::_detail_list($rw, $list);
+  }
+  //  DETAIL
+  static function location_detail($rw, $location)
+  {
+  	return LocationViews::_detail($rw, $location);
+  }
+  // CREATE
+  static function location_create($location, $valid_test = true)
+  {
+  	return LocationViews::_create($location, $valid_test);
+  }
+  // EDIT
+  static function location_edit($location, $valid_test = true)
+  {
+  	return LocationViews::_edit($location, $valid_test);
+  }
+  //  DELETE
+  static function location_delete($location)
+  {
+  	return LocationViews::_delete($location);
+  }
 
 //  * ********************************************************************** *
 //  *                            OBECNE                                      *

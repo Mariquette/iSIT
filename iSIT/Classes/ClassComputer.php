@@ -451,7 +451,7 @@ class Computer
     }
     if(isset($cmps[$this->evidencni_cislo]))
     {
-      if($cmps[$this->evidencni_cislo]->get_seriove_cislo() != $this->seriove_cislo)
+      if(($cmps[$this->evidencni_cislo]->get_seriove_cislo() != $this->seriove_cislo)&&($cmps[$this->evidencni_cislo]->get_id() != $this->get_id()))
       {
         $return = $false;
         $this->evidencni_cislo_err = "Parametr \"Evidenční číslo\" je již přiřazeno k seriovému čslu \"".$cmps[$this->evidencni_cislo]->get_seriove_cislo()."\".";
@@ -512,7 +512,17 @@ class Computer
   public function get_string_location()
   {
   	$rep = self::$rep;
-  	return $rep->get_location($this->get_location());
+  	if($loc = $rep->get_location($this->get_location()))
+  	{
+  		return $loc->get_name();	
+  	}
+  	return "";
+  }
+  
+  public function get_all_location()
+  {
+  	$rep = self::$rep;
+  	return $rep->get_all_location();
   }
   
   /****************************** PRIVATE ***********************************/     

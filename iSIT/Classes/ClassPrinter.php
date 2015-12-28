@@ -541,8 +541,20 @@ class Printer
   public function get_string_location()
   {
   	$rep = self::$rep;
-  	return $rep->get_location($this->get_location());
+  	if($loc = $rep->get_location($this->get_location()))
+  	{
+  		return $loc->get_name();	
+  	}
+  	return "";
   }
+  
+  public function get_all_location()
+  {
+  	$rep = self::$rep;
+  	return $rep->get_all_location();
+  }
+  
+ 
   /****************************** PRIVATE ***********************************/     
 
 

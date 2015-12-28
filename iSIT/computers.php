@@ -32,6 +32,7 @@
   $menu = new Menu(FileName);
   $menu->add_item(new SimpleLink("Home","./index.php"));
   $menu->add_item(new SimpleLink("Notes","./events.php"));
+  $menu->add_item(new SimpleLink("Locations","./locations.php"));
   $menu->add_item(new SimpleLink("Persons","./persons.php"));
   $menu->add_item(new SimpleLink("Computers","./computers.php"));
     $submenu = new Menu(FileName,"submenu");
@@ -503,6 +504,97 @@
         }
       }
     }
+    
+    if($_GET["sort"]=="location")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_location()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_location()][] = $obj;
+    		}
+    	}
+    }
+    
+    if($_GET["sort"]=="model")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_model()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_model()][] = $obj;
+    		}
+    	}
+    }
+    
+    if($_GET["sort"]=="seriove_cislo")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_seriove_cislo()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_seriove_cislo()][] = $obj;
+    		}
+    	}
+    }
+    
+    if($_GET["sort"]=="evidencni_cislo")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_evidencni_cislo()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_evidencni_cislo()][] = $obj;
+    		}
+    	}
+    }
+    
+    if($_GET["sort"]=="pc_name")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_pc_name()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_pc_name()][] = $obj;
+    		}
+    	}
+    }
+    
+    if($_GET["sort"]=="teamviewer")
+    {
+    	foreach($all as $obj)
+    	{
+    		if($obj->get_teamviewer()=="")
+    		{
+    			$all_temp["_no_value"][]=$obj;
+    		}
+    		else
+    		{
+    			$all_temp[$obj->get_teamviewer()][] = $obj;
+    		}
+    	}
+    }
+    
     if($_GET["sort"]=="datum_porizeni")
     {
       foreach($all as $obj)
