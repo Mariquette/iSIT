@@ -31,11 +31,14 @@ $dbPasswd = 'heslo';
 
 - http://localhost/iSIT
 
+verze 4.1
+=========
+* zmena struktury databaze, pridana tabulka locations, rozsirena tabulka printers o sloupec name
+* doporuceno vytvorit vlasnti connection soubor prejmenovanim souboru isit-db-config.default.php na isit-db-config.php, pri upgradu pres git se neprepise
+
 
 nastaveni delky automatickeho odhlaseni (2h)
 =======================================
 /etc/php5/apache2/php.ini
 -------------------------
 session.gc_maxlifetime = 7200
-
-s

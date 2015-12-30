@@ -14,7 +14,7 @@ class Repository
   private static $pdfDir;
   private static $fileDir;
   private static $tmpDir;
-  
+  private static $dirRoot;
   private $timer;
   private $show_timer;
 
@@ -28,6 +28,7 @@ class Repository
     {
       self::$rep = true;
           
+      self::$dirRoot = $dir_root;
       self::$imgDir = "img/";
       self::$pdfDir = $dir_root."__pdf/";
       self::$fileDir = "file/";
@@ -734,7 +735,7 @@ class Repository
 
   public function get_all_disabled_printer($key = "seriove_cislo")
   {
-    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac, location, name FROM printers WHERE aktivni = 1";
+    $sql = "SELECT id, model, seriove_cislo, aktivni, datum_porizeni, evidencni_cislo, ip, _mac, location, name FROM printers WHERE aktivni = 0";
         
     if($key == "id") return $this->isit_get_all($sql,"Printer",Printer::get_id_index());
     if($key == "seriove_cislo") return $this->isit_get_all($sql,"Printer",Printer::get_seriove_cislo_index());
@@ -1961,20 +1962,6 @@ class Repository
     return false;
   }
 
-  /* ************************** */
-  /* ******* ISIT AUTH ******** */
-  /* ************************** */
-
-  public function get_isit_auth($user, $passw)
-  {
-    //if(($user=="isit_rw")AND($passw=="readwrite")) return Util::iSIT_AUTH_RW; // RW
-    if(($user=="admin")AND($passw=="isit")) return Util::iSIT_AUTH_RW; // RW
-    if(($user=="isit_rw")AND($passw=="rw.")) return Util::iSIT_AUTH_RW; // RW
-    if(($user=="isit_r")AND($passw=="read")) return Util::iSIT_AUTH_R; // R
-    if(($user=="gajda")AND($passw=="read")) return Util::iSIT_AUTH_R; // R
-    if(($user=="ir")AND($passw=="albert")) return Util::iSIT_AUTH_RW; // RW
-    return Util::iSIT_AUTH_NO_AUTH; // rejected
-  }
   
   /* **************************** */
   /* ******* GET ALL SCN ******** */
@@ -2252,6 +2239,10 @@ class Repository
   /* ---- CONNECTIONS ---- */
   /* --------------------- */
 
+  /* ************************** */
+  /* ******* ISIT AUTH ******** */
+  /* ************************** */
+  
 
 	private function connect_isit_db()
 	{
@@ -2259,23 +2250,35 @@ class Repository
 	}
   
 	private function connect_isit_db_orig()
-  {
-    $connectionId;  // identifikator spojeni s db
+  	{
+    	$isitConnectionId;  // identifikator spojeni s db
+
+    	$db_config_file = self::$dirRoot."isit-db-config.php";
+    
+	    if (file_exists($db_config_file) && is_readable($db_config_file)) 
+	    {
+	      	include $db_config_file;    
+	    } 
+	    else 
+	    {
+	    	require (self::$dirRoot."isit-db-config.default.php");
+	    }
+    
+        
+    /*
     $dbSrv = 'localhost';//':/webdev/mysql/mysqld.sock';
     $dbName = 'isit'; 
     $dbUserName = 'isit';
     $dbPasswd = 'heslo';
-
-    $this->isit_db = $dbName;
+	*/
     
-    //if($connectionId = mysql_connect($dbSrv, $dbUserName,$dbPasswd))
-    if($connectionId = mysqli_connect($dbSrv, $dbUserName,$dbPasswd))
+    $this->isit_db = $isitDbName;
+    
+    if($isitConnectionId = mysqli_connect($isitDbSrv, $isitDbUserName,$isitDbPasswd))
     {
-      //mysql_set_charset('utf8',$connectionId);
-      mysqli_set_charset($connectionId,'utf8');
-      //$id_db = mysql_select_db($dbName);
-      $id_db = mysqli_select_db($connectionId,$dbName);
-      if (!$id_db)
+      mysqli_set_charset($isitConnectionId,'utf8');
+      $isit_id_db = mysqli_select_db($isitConnectionId,$isitDbName);
+      if (!$isit_id_db)
       {
         die ("Repository::connect_isit_db(): Nepodarilo se pripojit databazi!");
       }
@@ -2285,7 +2288,7 @@ class Repository
       die ("Repository::connect_isit_db(): Nepodarilo se navazat spojeni se serverem!");
     }
       
-    return $connectionId;    
+    return $isitConnectionId;    
   }
       
   private function connect_db()
@@ -2712,5 +2715,18 @@ class Repository
   {
   	return $this->isit_db;
   }
+
+
+  public function get_isit_auth($user, $passw)
+  {
+  	//if(($user=="isit_rw")AND($passw=="readwrite")) return Util::iSIT_AUTH_RW; // RW
+  	if(($user=="admin")AND($passw=="isit")) return Util::iSIT_AUTH_RW; // RW
+  	if(($user=="isit_rw")AND($passw=="rw.")) return Util::iSIT_AUTH_RW; // RW
+  	if(($user=="isit_r")AND($passw=="read")) return Util::iSIT_AUTH_R; // R
+  	if(($user=="gajda")AND($passw=="read")) return Util::iSIT_AUTH_R; // R
+  	if(($user=="ir")AND($passw=="albert")) return Util::iSIT_AUTH_RW; // RW
+  	return Util::iSIT_AUTH_NO_AUTH; // rejected
+  }
+  
 } // end Class
 ?>

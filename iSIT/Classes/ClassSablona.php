@@ -45,7 +45,7 @@ class Sablona
           </head>
           
           <body class="vse">
-            <h1 class="main">iSiT(v4.0 db:'.$this->rep->get_isit_db().') by BQ</h1>
+            <h1 class="main">iSiT(v4.1 db:'.$this->rep->get_isit_db().') by BQ</h1>
               <div class="main_menu">
                 '.$menu.'      
               </div>
