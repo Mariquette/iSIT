@@ -46,56 +46,36 @@
     <div class="informace">
       <h3>iSIT plánované rozšíření</h3>
       <ul>
+            <li>General: podchytit stav kdy je poda vyrazovak ke kontrole, ke schvaleni, kdy byl schvalen - pri dohledavani nenavrhnutych to usnadni praci</li>
+            <li>General: nestandardni chovani pri dlohe prodleve vytvareni noveho zaznamu - skoci jako ze je ok, ale neulozi se</li>
+    		<li>General: zobecnit casto pouzivane parametry, napr. jmeno muze byt tabulka s relaci na typ objektu (ser.num, ev.num, ip, mac,location,...)</li>
+			<li>General: repository: prikaz select: vzit parametry a jejich poradi z tridniho objektu - casto se opakujici definice</li>
+    		<li>General: prepinac/filtr na jednotlive pobocky, uplatni se nasledne na persons, computers, printers</li>
+    		<li>General: evidence sitovych prvku (kerio, switch, ap, router, dsl; ip, lokalita, info)</li>
+            <li>Computers: přidání požadavku hw/sw .pdf</li>
+            <li>Persons: přehled o svěřených a používaných zařízeních</li>
+            <li>Printers: přidání požadavku hw/sw .pdf</li>
+            <li>Notes: prehlednejsi zobrazeni udalosti</li>
+            <li>Notes: vylepsit moznosti zapisu strukturovaneho textu</li>
+            <li>Utils: export</li>
+      </ul>
+      
+      <hr>
+    		
+<h3>iSIT v4.1 duhovka</h3>
+      <ul>
         <li>
           <h4>General</h4>
           <ul>
-            <li>vyresit chovani aplikace pri odpojenych externich zdrojich (cache?)|aktualizace pouze na pozadani?</li>
-            <li>podchytit stav kdy je poda vyrazovak ke kontrole, ke schvaleni, kdy byl schvalen - pri dohledavani nenavrhnutych to usnadni praci</li>
+            <li>urpava struktury databaze (rozsireni o tabulku location)</li>
+    		<li>pridana polozka pro spravu lokalit</li>
+            <li>uprava prihlasovaci a uvodni stranky</li>
+    		<li>extrakce prihlasovacich udaju k db do externiho souboru isit-db-config.default.php</li>
+    		<li></li>
           </ul>
         </li>
-        <li>
-          <h4>Computers</h4>
-          <ul>
-            <li>plánování záloh pro Li, tisknutelný kalendář záloh</li>
-            <li>přehled office: porovnání s rozdělovníkem</li>
-            <li>získání informace o BPCS sessions z c:\Program Files\...\Private\</li>
-            <li>získání informace o naplánovaném zálohování ...\all users\...</li>
-            <li>přidání požadavku hw/sw .pdf</li>
-          </ul>        
-        </li>
-        
-        <li>
-          <h4>Persons</h4>
-          <ul>
-            <li>přehled o svěřených a používaných zařízeních</li>
-          </ul>                
-        </li>
-
-        <li>
-          <h4>Printers</h4>
-          <ul>
-            <li>nestandardni chovani pri dlohe prodleve vytvareni noveho zaznamu - skoci jako ze je ok, ale neulozi se</li>
-            <li>přidání požadavku hw/sw .pdf</li>
-          </ul>                
-        </li>        
-
-        <li>        
-          <h4>Notes</h4>
-          <ul>
-            <li>prehlednejsi zobrazeni udalosti</li>
-            <li>vylepsit moznosti zapisu strukturovaneho textu</li>
-          </ul>                
-        </li>
-                
-        <li>
-          <h4>Utils</h4>
-          <ul>
-            <li>export</li>
-          </ul>        
-        </li>
-      </ul>
-      
-      
+      </ul>      
+    		    		
       <hr>
       
       <h3>iSIT v3.2 (open)</h3>

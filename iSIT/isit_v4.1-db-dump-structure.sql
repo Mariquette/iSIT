@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2
+-- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 09, 2015 at 05:50 PM
--- Server version: 5.5.25a
--- PHP Version: 5.4.4
+-- Generation Time: Dec 30, 2015 at 12:35 PM
+-- Server version: 5.5.46-0ubuntu0.14.04.2
+-- PHP Version: 5.5.9-1ubuntu4.14
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -16,9 +16,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- Database: `isit_v3-duhovka`
---
 
 -- --------------------------------------------------------
 
@@ -53,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `poznamka` text COLLATE utf8_czech_ci NOT NULL,
   `aktivni` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`dbid`,`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=777 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1055 ;
 
 -- --------------------------------------------------------
 
@@ -65,17 +62,33 @@ DROP TABLE IF EXISTS `computers`;
 CREATE TABLE IF NOT EXISTS `computers` (
   `dbid` int(11) NOT NULL AUTO_INCREMENT,
   `id` int(5) NOT NULL,
-  `seriove_cislo` varchar(15) COLLATE utf8_czech_ci NOT NULL,
-  `evidencni_cislo` varchar(15) COLLATE utf8_czech_ci NOT NULL,
+  `seriove_cislo` varchar(30) COLLATE utf8_czech_ci NOT NULL,
+  `evidencni_cislo` varchar(30) COLLATE utf8_czech_ci NOT NULL,
   `model` varchar(50) COLLATE utf8_czech_ci NOT NULL,
   `datum_porizeni` varchar(10) COLLATE utf8_czech_ci DEFAULT NULL,
   `aktivni` int(1) NOT NULL DEFAULT '1',
-  `pc_name` varchar(20) COLLATE utf8_czech_ci NOT NULL,
+  `pc_name` varchar(30) COLLATE utf8_czech_ci NOT NULL,
   `teamviewer` int(12) NOT NULL,
   `location` int(11) NOT NULL,
   PRIMARY KEY (`dbid`,`id`),
   UNIQUE KEY `seriove_cislo` (`seriove_cislo`,`evidencni_cislo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=382 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=500 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `computer_uses`
+--
+
+DROP TABLE IF EXISTS `computer_uses`;
+CREATE TABLE IF NOT EXISTS `computer_uses` (
+  `dbid` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(5) NOT NULL,
+  `computer_id` int(5) NOT NULL,
+  `person_id` int(5) NOT NULL,
+  `poznamka` text COLLATE utf8_czech_ci NOT NULL,
+  PRIMARY KEY (`dbid`,`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=330 ;
 
 -- --------------------------------------------------------
 
@@ -94,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `aktivni` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`dbid`,`id`),
   UNIQUE KEY `nadpis` (`nadpis`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=49 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=53 ;
 
 -- --------------------------------------------------------
 
@@ -112,7 +125,24 @@ CREATE TABLE IF NOT EXISTS `links` (
   `_name` varchar(100) COLLATE utf8_czech_ci NOT NULL,
   PRIMARY KEY (`dbid`,`id`),
   UNIQUE KEY `addr` (`addr`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=24 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `locations`
+--
+
+DROP TABLE IF EXISTS `locations`;
+CREATE TABLE IF NOT EXISTS `locations` (
+  `dbid` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(5) NOT NULL,
+  `addr` varchar(100) CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
+  `popis` text CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
+  `aktivni` int(1) NOT NULL DEFAULT '1',
+  `name` varchar(15) CHARACTER SET utf8 COLLATE utf8_czech_ci NOT NULL,
+  PRIMARY KEY (`dbid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -131,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `persons` (
   `aktivni` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`dbid`,`id`),
   UNIQUE KEY `osobni_cislo` (`osobni_cislo`,`login`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=200 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=223 ;
 
 -- --------------------------------------------------------
 
@@ -150,9 +180,11 @@ CREATE TABLE IF NOT EXISTS `printers` (
   `aktivni` int(1) NOT NULL DEFAULT '1',
   `ip` varchar(50) COLLATE utf8_czech_ci NOT NULL,
   `_mac` varchar(50) COLLATE utf8_czech_ci NOT NULL,
+  `location` int(11) NOT NULL,
+  `name` varchar(15) COLLATE utf8_czech_ci NOT NULL,
   PRIMARY KEY (`dbid`,`id`),
   UNIQUE KEY `seriove_cislo` (`seriove_cislo`,`evidencni_cislo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=184 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=199 ;
 
 -- --------------------------------------------------------
 
@@ -168,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `printer_uses` (
   `person_id` int(5) NOT NULL,
   `poznamka` text COLLATE utf8_czech_ci NOT NULL,
   PRIMARY KEY (`dbid`,`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=301 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=306 ;
 
 -- --------------------------------------------------------
 

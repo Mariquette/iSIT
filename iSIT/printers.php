@@ -39,6 +39,7 @@
     $submenu = new Menu(FileName,"submenu");
     $submenu->add_item(new SimpleLink("seznam",FileName."?list"));
     if($_auth==Util::iSIT_AUTH_RW)$submenu->add_item(new SimpleLink("create",FileName."?create"));
+    $submenu->add_item(new SimpleLink("|",""));
     $submenu->add_item(new SimpleLink("vyřazené",FileName."?vyrazene"));
     $menu->set_submenu($submenu);  
   $menu->add_item(new SimpleLink("Links","./links.php"));
