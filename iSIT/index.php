@@ -55,13 +55,9 @@
     $rep->export_to_csv($rep->get_all_link(),"2013-04-08-links.csv");
     $rep->export_to_csv($rep->get_all_backup_schedule(),"2013-04-08-backup_schedules.csv");
     */
-<<<<<<< HEAD
-        
-=======
 
-  
->>>>>>> 9299de54bd4173dab994b93962c8957732d456a8
-  if($_auth == Util::iSIT_AUTH_NO_LOGED)
+
+ if($_auth == Util::iSIT_AUTH_NO_LOGED)
   {
   	$obsah_html .=Views::login_form("");
   }
