@@ -41,7 +41,7 @@ class CommentViews
           {
             if($pc = $rep->get_computer($obj->get_device_id()))
             {
-              $dev_inf = '<a href="./computers.php?detail='.$obj->get_device_id().'">'.$pc->get_pc_name()."(".$pc->get_model().")".'</a>, '.$pc->get_seriove_cislo().', '.$pc->get_evidencni_cislo();
+              $dev_inf = '<a href="./computers.php?detail='.$obj->get_device_id().'">'.$pc->get_ldap_name("no_name").'</a>, '.$pc->get_seriove_cislo().', '.$pc->get_evidencni_cislo();
             }
             else
             {
