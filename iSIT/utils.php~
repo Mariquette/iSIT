@@ -24,6 +24,19 @@
   $obsah_html = "";
   $menu_html = "";
   
+  $menu = new Menu(FileName);
+  $menu->add_item(new SimpleLink("Home","./index.php"));
+  $menu->add_item(new SimpleLink("Notes","./events.php"));
+  $menu->add_item(new SimpleLink("Locations","./locations.php"));
+  $menu->add_item(new SimpleLink("Persons","./persons.php"));
+  $menu->add_item(new SimpleLink("Computers","./computers.php"));
+  $menu->add_item(new SimpleLink("Printers","./printers.php"));
+  $menu->add_item(new SimpleLink("Links","./links.php"));    
+  $menu->add_item(new SimpleLink("|",""));
+  $menu->add_item(new SimpleLink("Utils","./utils.php"));
+  $menu->add_item(new SimpleLink("|",""));  
+  $menu->add_item(new SimpleLink("About","./about.php"));
+  $menu_html.=$menu->get_html();
 
   // autentifikace
   $_auth = Util::get_auth();
@@ -233,7 +246,7 @@
   /* --- IMPORT --- */
   if(isset($_GET["import"]))
   {
-    $menu->set_file_name(FileName."?import");
+    $menu->set_submenu_file_name(FileName."?import");
     $type = "";
     $nadpis = "";
     if($_GET["import"]=="events")
@@ -283,7 +296,7 @@
   
   if(isset($_POST["import"]))
   {
-    $menu->set_file_name(FileName."?import");
+    $menu->set_submenu_file_name(FileName."?import");
     
     $objekt = null;
     
@@ -368,7 +381,7 @@
   /* --- EXPORT --- */
   if(isset($_GET["export"]))
   {
-    $menu->set_file_name(FileName."?export");
+    $menu->set_submenu_file_name(FileName."?export");
     $type = "";
     $nadpis = "";
     $db_models = array();
@@ -482,7 +495,7 @@
       $obsah_html.='<a class="odhlasit" href= "login.php">Odhlásit</a>';
     }
 
-    echo $stranka->get_html($obsah_html, "");
+    echo $stranka->get_html($obsah_html, $menu->get_html());
     
   END:    
    

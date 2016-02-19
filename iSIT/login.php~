@@ -23,7 +23,20 @@
   $obsah_html = "";
   $menu_html = "";
   
- 
+  $menu = new Menu(FileName);
+  $menu->add_item(new SimpleLink("Home","./index.php"));
+  $menu->add_item(new SimpleLink("Notes","./events.php"));
+  $menu->add_item(new SimpleLink("Locations","./locations.php"));
+  $menu->add_item(new SimpleLink("Persons","./persons.php"));
+  $menu->add_item(new SimpleLink("Computers","./computers.php"));
+  $menu->add_item(new SimpleLink("Printers","./printers.php"));
+  $menu->add_item(new SimpleLink("Links","./links.php"));
+  $menu->add_item(new SimpleLink("|",""));
+  $menu->add_item(new SimpleLink("Utils","./utils.php"));
+  $menu->add_item(new SimpleLink("|",""));  
+  $menu->add_item(new SimpleLink("About","./about.php"));
+  $menu_html.=$menu->get_html();
+  
   /* --- //// --- */
 
   /* --- LOGOUT --- */
@@ -88,7 +101,7 @@
     
     </div>'; 
     
-    echo $stranka->get_html($obsah_html, "");
+    echo $stranka->get_html($obsah_html, $menu->get_html());
    
 
 ?>

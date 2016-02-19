@@ -20,6 +20,8 @@
   $obsah_html = "";
   $menu_html = "";
   
+  $menu = new Menu(FileName);
+
   // autentifikace
   $_auth = Util::get_auth();
   
@@ -97,6 +99,6 @@
       $obsah_html.='<a class="prihlasit" href= "login.php">Přihlásit</a>';
     }
     */
-    echo $stranka->get_html($obsah_html, "");
+    echo $stranka->get_html($obsah_html, $menu->get_html());
    
 ?>

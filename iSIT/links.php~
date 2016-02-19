@@ -2,7 +2,7 @@
 
   define("DirRoot", "./");
   define("DirName", "");
-  define("FileName", "events.php");
+  define("FileName", "links.php");
 
   function __autoload($class_name) 
   {
@@ -11,14 +11,14 @@
   }
   
   session_start();
-  Util::filtruj_vstup();
+  Util::filtruj_vstup();     
 
   $rep = new Repository("./");  
   $stranka = new Sablona(FileName);
 
   $first_load = Util::check_token(Util::get_token()); // opakovane odeslani formulare?
   Util::create_token();
-  
+
   // autentifikace
   $_auth = Util::get_auth();
   $_rw = false;
@@ -29,11 +29,12 @@
   $obsah_html = "";
   $menu_html = "";
   
-  $menu = new Menu(FileName,"submenu");
+
   $menu->add_item(new SimpleLink("seznam",FileName."?list"));
   if($_auth==Util::iSIT_AUTH_RW)$menu->add_item(new SimpleLink("create",FileName."?create"));
   $menu->add_item(new SimpleLink("detail list",FileName."?detail_list"));
   $menu_html.=$menu->get_html();
+
 
   // autentifikace
   if(($_auth!=Util::iSIT_AUTH_RW)AND($_auth!=Util::iSIT_AUTH_R))
@@ -41,7 +42,6 @@
     $obsah_html .= Views::auth_err();
     goto OUTPUT;      
   }
-
 
   /***********/
   /* RW ONLY */
@@ -51,19 +51,20 @@
   if(isset($_GET["disable"]))
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
-      
+  
     $menu->set_file_name(FileName."?list");
-    if($event = $rep->get_event($_GET["disable"]))
+    if($link = $rep->get_link($_GET["disable"]))
     {
-      $event->set_aktivni(!$event->get_aktivni());
-      if($event->is_valid())
+      $link->set_aktivni(!$link->get_aktivni());
+      if($link->is_valid())
       {
-        $rep->save_event($event);
-        $obsah_html .= Views::event_detail_list($_rw, $rep->get_every_event());
+        $rep->save_link($link);
+        $obsah_html .= Views::link_detail_list($_rw, $rep->get_every_link());
+        
       }        
       else
       {
-        $obsah_html .= Views::event_edit($event);
+        $obsah_html .= Views::link_edit($link);
       }    
     }
     else
@@ -72,15 +73,16 @@
     }
     goto OUTPUT;      
   }  
+
   /* --- EDIT --- */
   if(isset($_GET["edit"]))
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
     $menu->set_file_name(FileName."?edit");
-    if($event = $rep->get_event($_GET["edit"]))
+    if($link = $rep->get_link($_GET["edit"]))
     {
-      $obsah_html .= Views::event_edit($event);
+      $obsah_html .= Views::link_edit($link);
     }
     else
     {
@@ -93,19 +95,19 @@
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
     $menu->set_file_name(FileName."?edit");
-    $event = new Event($_POST["event"]);
+    $link = new Link($_POST["link"]);
     
-    if($event->is_valid())
+    if($link->is_valid())
     {
       if($first_load) 
       {
-        $rep->save_event($event);
+        $rep->save_link($link);
       }      
-      $obsah_html .= Views::event_detail($_rw, $event);
+      $obsah_html .= Views::link_detail($_rw, $link);
     }        
     else
     {
-      $obsah_html .= Views::event_edit($event);
+      $obsah_html .= Views::link_edit($link);
     }    
     goto OUTPUT;
   }
@@ -116,9 +118,9 @@
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
     $menu->set_file_name(FileName."?create");
-    $event = new Event();
-    $event->set_id($rep->get_new_event_id());
-    $obsah_html .= Views::event_create($event, false);
+    $link = new Link();
+    $link->set_id($rep->get_new_link_id());
+    $obsah_html .= Views::link_create($link, false);
     goto OUTPUT;
   }
   if(isset($_POST["create"]))
@@ -126,25 +128,24 @@
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
     $menu->set_file_name(FileName."?create");
-    $event = new Event($_POST["event"]);
+    $link = new Link($_POST["link"]);
     
-    if($event->is_valid())
+    if($link->is_valid())
     {
       if($first_load)
       {
-        //if(!$rep->add_event($event))
-        if(!$rep->add_obj($event))
+        if(!$rep->add_link($link))
         {
           $obsah_html .= Views::err("Nepodařilo se uložit záznam!");
-          $obsah_html .= Views::event_create($event);
+          $obsah_html .= Views::link_create($link);
           goto OUTPUT;
         }      
       }                   
-      $obsah_html .= Views::event_detail($_rw, $event);
+      $obsah_html .= Views::link_detail($_rw, $link);
     }        
     else
     {
-      $obsah_html .= Views::event_create($event);
+      $obsah_html .= Views::link_create($link);
     }
     goto OUTPUT;    
   }
@@ -155,9 +156,9 @@
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
     $menu->set_file_name(FileName."?delete");
-    if($event = $rep->get_event($_GET["delete"]))
+    if($link = $rep->get_link($_GET["delete"]))
     {
-      $obsah_html .= Views::delete($event->get_id(),FileName);
+      $obsah_html .= Views::delete($link->get_id(),FileName);
     }
     else
     {
@@ -175,12 +176,12 @@
       $obsah_html .= Views::deleted(FileName);
       goto OUTPUT;
     }
-    if($event = $rep->get_event($_POST["delete"]))
+    if($link = $rep->get_link($_POST["delete"]))
     {
-      if(!$rep->del_obj($event))
+      if(!$rep->del_obj($link))
       {
         $obsah_html .= Views::err("Nepodařilo se odstranit záznam.");
-        $obsah_html .= Views::event_detail($_rw, $event->get_id());
+        $obsah_html .= Views::link_detail($_rw, $link->get_id());
       }
       else
       {
@@ -193,7 +194,7 @@
     }
     goto OUTPUT;      
   }
-
+    
   /******************/
   /* READ AND WRITE */
   /******************/
@@ -206,14 +207,14 @@
     //$obsah_html .= rep get all evnets to csv;
     goto OUTPUT;      
   }  
-  
+      
   /* --- DETAIL --- */
   if(isset($_GET["detail"]))
   {
     $menu->set_file_name(FileName."?detail");
-    if($event = $rep->get_event($_GET["detail"]))
+    if($link = $rep->get_link($_GET["detail"]))
     {
-      $obsah_html .= Views::event_detail($_rw, $event);
+      $obsah_html .= Views::link_detail($_rw, $link);
     }
     else
     {
@@ -221,23 +222,24 @@
     }
     goto OUTPUT;      
   }
-  
+
   /* --- DETAIL-LIST --- */
   if(isset($_GET["detail_list"]))
   {
     $menu->set_file_name(FileName."?detail_list");
-    $obsah_html .= Views::event_detail_list($_rw, $rep->get_every_event());
+    $obsah_html .= Views::link_detail_list($_rw, $rep->get_every_link());
     goto OUTPUT;      
   }
   
   /* --- LIST --- */
   $menu->set_file_name(FileName."?list");
-  $obsah_html .= Views::event_list(array_reverse($rep->get_all_event()));
+  $obsah_html .= Views::link_list($rep->get_all_link());
   
   
   /* --- //// --- */
   
   OUTPUT:
+
     if(Util::get_auth()!=Util::iSIT_AUTH_NO_LOGED)
     {
       $obsah_html.='<a class="odhlasit" href= "login.php">Odhlásit</a>';

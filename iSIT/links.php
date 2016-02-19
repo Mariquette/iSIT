@@ -29,23 +29,10 @@
   $obsah_html = "";
   $menu_html = "";
   
-  $menu = new Menu(FileName);
-  $menu->add_item(new SimpleLink("Home","./index.php"));
-  $menu->add_item(new SimpleLink("Notes","./events.php"));
-    $submenu = new Menu(FileName,"submenu");
-    $submenu->add_item(new SimpleLink("seznam",FileName."?list"));
-    if($_auth==Util::iSIT_AUTH_RW)$submenu->add_item(new SimpleLink("create",FileName."?create"));
-    $submenu->add_item(new SimpleLink("detail list",FileName."?detail_list"));
-  $menu->set_submenu($submenu);
-  $menu->add_item(new SimpleLink("Locations","./locations.php"));
-  $menu->add_item(new SimpleLink("Persons","./persons.php"));
-  $menu->add_item(new SimpleLink("Computers","./computers.php"));
-  $menu->add_item(new SimpleLink("Printers","./printers.php"));
-  $menu->add_item(new SimpleLink("Links","./links.php"));  
-  $menu->add_item(new SimpleLink("|",""));
-  $menu->add_item(new SimpleLink("Utils","./utils.php"));
-  $menu->add_item(new SimpleLink("|",""));  
-  $menu->add_item(new SimpleLink("About","./about.php"));
+  $menu = new Menu(FileName,"submenu");
+  $menu->add_item(new SimpleLink("seznam",FileName."?list"));
+  if($_auth==Util::iSIT_AUTH_RW)$menu->add_item(new SimpleLink("create",FileName."?create"));
+  $menu->add_item(new SimpleLink("detail list",FileName."?detail_list"));
   $menu_html.=$menu->get_html();
 
 
@@ -65,7 +52,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-    $menu->set_submenu_file_name(FileName."?list");
+    $menu->set_file_name(FileName."?list");
     if($link = $rep->get_link($_GET["disable"]))
     {
       $link->set_aktivni(!$link->get_aktivni());
@@ -92,7 +79,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?edit");
+    $menu->set_file_name(FileName."?edit");
     if($link = $rep->get_link($_GET["edit"]))
     {
       $obsah_html .= Views::link_edit($link);
@@ -107,7 +94,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?edit");
+    $menu->set_file_name(FileName."?edit");
     $link = new Link($_POST["link"]);
     
     if($link->is_valid())
@@ -130,7 +117,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?create");
+    $menu->set_file_name(FileName."?create");
     $link = new Link();
     $link->set_id($rep->get_new_link_id());
     $obsah_html .= Views::link_create($link, false);
@@ -140,7 +127,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?create");
+    $menu->set_file_name(FileName."?create");
     $link = new Link($_POST["link"]);
     
     if($link->is_valid())
@@ -168,7 +155,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?delete");
+    $menu->set_file_name(FileName."?delete");
     if($link = $rep->get_link($_GET["delete"]))
     {
       $obsah_html .= Views::delete($link->get_id(),FileName);
@@ -183,7 +170,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?delete");
+    $menu->set_file_name(FileName."?delete");
     if(!$first_load)
     {
       $obsah_html .= Views::deleted(FileName);
@@ -215,7 +202,7 @@
   /* --- EXPORT --- */
   if(isset($_GET["export"]))
   {
-    $menu->set_submenu_file_name(FileName."?list");
+    $menu->set_file_name(FileName."?list");
     //$stranka->set_hedears ...
     //$obsah_html .= rep get all evnets to csv;
     goto OUTPUT;      
@@ -224,7 +211,7 @@
   /* --- DETAIL --- */
   if(isset($_GET["detail"]))
   {
-    $menu->set_submenu_file_name(FileName."?detail");
+    $menu->set_file_name(FileName."?detail");
     if($link = $rep->get_link($_GET["detail"]))
     {
       $obsah_html .= Views::link_detail($_rw, $link);
@@ -239,13 +226,13 @@
   /* --- DETAIL-LIST --- */
   if(isset($_GET["detail_list"]))
   {
-    $menu->set_submenu_file_name(FileName."?detail_list");
+    $menu->set_file_name(FileName."?detail_list");
     $obsah_html .= Views::link_detail_list($_rw, $rep->get_every_link());
     goto OUTPUT;      
   }
   
   /* --- LIST --- */
-  $menu->set_submenu_file_name(FileName."?list");
+  $menu->set_file_name(FileName."?list");
   $obsah_html .= Views::link_list($rep->get_all_link());
   
   

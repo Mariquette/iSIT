@@ -29,25 +29,11 @@
   $obsah_html = "";
   $menu_html = "";
   
-  $menu = new Menu(FileName);
-  $menu->add_item(new SimpleLink("Home","./index.php"));
-  $menu->add_item(new SimpleLink("Notes","./events.php"));
-  $menu->add_item(new SimpleLink("Locations","./locations.php"));
-  	$submenu = new Menu(FileName,"submenu");
-    $submenu->add_item(new SimpleLink("seznam",FileName."?list"));
-    if($_auth==Util::iSIT_AUTH_RW)$submenu->add_item(new SimpleLink("create",FileName."?create"));
-    $submenu->add_item(new SimpleLink("detail list",FileName."?detail_list")); 	$menu->set_submenu($submenu);
-  
-  $menu->add_item(new SimpleLink("Persons","./persons.php"));
-  $menu->add_item(new SimpleLink("Computers","./computers.php"));
-  $menu->add_item(new SimpleLink("Printers","./printers.php"));
-  $menu->add_item(new SimpleLink("Links","./linkss.php"));  
-  $menu->add_item(new SimpleLink("|",""));
-  $menu->add_item(new SimpleLink("Utils","./utils.php"));
-  $menu->add_item(new SimpleLink("|",""));  
-  $menu->add_item(new SimpleLink("About","./about.php"));
-  $menu_html.=$menu->get_html();
-
+    $menu = new Menu(FileName,"submenu");
+    $menu->add_item(new SimpleLink("seznam",FileName."?list"));
+    if($_auth==Util::iSIT_AUTH_RW)$menu->add_item(new SimpleLink("create",FileName."?create"));
+    $menu->add_item(new SimpleLink("detail list",FileName."?detail_list"));
+    $menu_html.=$menu->get_html();
 
   // autentifikace
   if(($_auth!=Util::iSIT_AUTH_RW)AND($_auth!=Util::iSIT_AUTH_R))
@@ -65,7 +51,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-    $menu->set_submenu_file_name(FileName."?list");
+    $menu->set_file_name(FileName."?list");
     if($location = $rep->get_location($_GET["disable"]))
     {
       $location->set_aktivni(!$location->get_aktivni());
@@ -92,7 +78,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?edit");
+    $menu->set_file_name(FileName."?edit");
     if($location = $rep->get_location($_GET["edit"]))
     {
       $obsah_html .= Views::location_edit($location);
@@ -107,7 +93,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?edit");
+    $menu->set_file_name(FileName."?edit");
     $location = new Location($_POST["location"]);
     
     if($location->is_valid())
@@ -130,7 +116,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?create");
+    $menu->set_file_name(FileName."?create");
     $location = new Location();
     $location->set_id($rep->get_new_location_id());
     $obsah_html .= Views::location_create($location, false);
@@ -140,7 +126,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?create");
+    $menu->set_file_name(FileName."?create");
     $location = new Location($_POST["location"]);
     
     if($location->is_valid())
@@ -168,7 +154,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?delete");
+    $menu->set_file_name(FileName."?delete");
     if($location = $rep->get_location($_GET["delete"]))
     {
       $obsah_html .= Views::delete($location->get_id(),FileName);
@@ -183,7 +169,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_submenu_file_name(FileName."?delete");
+    $menu->set_file_name(FileName."?delete");
     if(!$first_load)
     {
       $obsah_html .= Views::deleted(FileName);
@@ -215,7 +201,7 @@
   /* --- EXPORT --- */
   if(isset($_GET["export"]))
   {
-    $menu->set_submenu_file_name(FileName."?list");
+    $menu->set_file_name(FileName."?list");
     //$stranka->set_hedears ...
     //$obsah_html .= rep get all evnets to csv;
     goto OUTPUT;      
@@ -224,7 +210,7 @@
   /* --- DETAIL --- */
   if(isset($_GET["detail"]))
   {
-    $menu->set_submenu_file_name(FileName."?detail");
+    $menu->set_file_name(FileName."?detail");
     if($location = $rep->get_location($_GET["detail"]))
     {
       $obsah_html .= Views::location_detail($_rw, $location);
@@ -239,13 +225,13 @@
   /* --- DETAIL-LIST --- */
   if(isset($_GET["detail_list"]))
   {
-    $menu->set_submenu_file_name(FileName."?detail_list");
+    $menu->set_file_name(FileName."?detail_list");
     $obsah_html .= Views::location_detail_list($_rw, $rep->get_every_location());
     goto OUTPUT;      
   }
   
   /* --- LIST --- */
-  $menu->set_submenu_file_name(FileName."?list");
+  $menu->set_file_name(FileName."?list");
   $obsah_html .= Views::location_list($rep->get_all_location());
   
   

@@ -28,7 +28,7 @@ class Sablona
   public function get_html($obsah = "", $submenu = "", $analytic = "")
   {
 
-  $menu = new Menu($this->file_name);
+  $menu = new Menu($file_name);
   $menu->add_item(new SimpleLink("Home","./index.php"));
   $menu->add_item(new SimpleLink("Notes","./events.php"));
   $menu->add_item(new SimpleLink("Locations","./locations.php"));

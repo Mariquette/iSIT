@@ -29,12 +29,24 @@
   $obsah_html = "";
   $menu_html = "";
   
-
-  $menu = new Menu(FileName,"submenu");
-  $menu->add_item(new SimpleLink("seznam",FileName."?list"));
-  if($_auth==Util::iSIT_AUTH_RW)$menu->add_item(new SimpleLink("create",FileName."?create"));
+  $menu = new Menu(FileName);
+  $menu->add_item(new SimpleLink("Home","./index.php"));
+  $menu->add_item(new SimpleLink("Notes","./events.php"));
+  $menu->add_item(new SimpleLink("Locations","./locations.php"));
+  $menu->add_item(new SimpleLink("Persons","./persons.php"));
+  $menu->add_item(new SimpleLink("Computers","./computers.php"));
+    $submenu = new Menu(FileName,"submenu");
+    $submenu->add_item(new SimpleLink("seznam",FileName."?list"));
+    if($_auth==Util::iSIT_AUTH_RW)$submenu->add_item(new SimpleLink("create",FileName."?create"));
+    $submenu->add_item(new SimpleLink("|",""));
+    $submenu->add_item(new SimpleLink("vyřazené",FileName."?vyrazene"));
+  $menu->set_submenu($submenu);
+  $menu->add_item(new SimpleLink("Printers","./printers.php"));
+  $menu->add_item(new SimpleLink("Links","./links.php"));  
   $menu->add_item(new SimpleLink("|",""));
-  $menu->add_item(new SimpleLink("vyřazené",FileName."?vyrazene"));
+  $menu->add_item(new SimpleLink("Utils","./utils.php"));
+  $menu->add_item(new SimpleLink("|",""));  
+  $menu->add_item(new SimpleLink("About","./about.php"));
   $menu_html.=$menu->get_html();
 
   // autentifikace
@@ -84,7 +96,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-    $menu->set_file_name(FileName."?detail");
+    $menu->set_submenu_file_name(FileName."?detail");
     
     if(!($computer = $rep->get_computer($_POST["add_pdf"])))
     {
@@ -122,7 +134,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-    $menu->set_file_name(FileName."?detail");
+    $menu->set_submenu_file_name(FileName."?detail");
     
     if($comment = $rep->get_comment($_GET["remove_comment"]))
     {
@@ -148,7 +160,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-    $menu->set_file_name(FileName."?detail");
+    $menu->set_submenu_file_name(FileName."?detail");
     if($computer = $rep->get_computer($_GET["add_comment"]))
     {
       $comment = new Comment();
@@ -166,7 +178,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-    $menu->set_file_name(FileName."?detail");
+    $menu->set_submenu_file_name(FileName."?detail");
     $comment = new Comment($_POST["comment"]);
     $comment->set_id($rep->get_new_comment_id());
     
@@ -192,7 +204,7 @@
   {
   	if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-  	$menu->set_file_name(FileName."?detail");
+  	$menu->set_submenu_file_name(FileName."?detail");
   
   	if($computer_use = $rep->get_computer_use($_GET["remove_user"]))
   	{
@@ -218,7 +230,7 @@
   {
   	if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-  	$menu->set_file_name(FileName."?detail");
+  	$menu->set_submenu_file_name(FileName."?detail");
   	if($computer = $rep->get_computer($_GET["add_user"]))
   	{
   		$persons = $rep->get_all_person("login");
@@ -249,7 +261,7 @@
   {
   	if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-  	$menu->set_file_name(FileName."?detail");
+  	$menu->set_submenu_file_name(FileName."?detail");
   	$computer_use = new ComputerUse($_POST["computer_use"]);
   	$computer_use->set_id($rep->get_new_computer_use_id());
   
@@ -276,7 +288,7 @@
   
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-    $menu->set_file_name(FileName."?list");
+    $menu->set_submenu_file_name(FileName."?list");
     if($computer = $rep->get_computer($_GET["disable"]))
     {
       $computer->set_aktivni(!$computer->get_aktivni());
@@ -302,7 +314,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-    $menu->set_file_name(FileName."?edit");
+    $menu->set_submenu_file_name(FileName."?edit");
     if($computer = $rep->get_computer($_GET["edit"]))
     {
       $obsah_html .= Views::computer_edit($computer);
@@ -317,7 +329,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-    $menu->set_file_name(FileName."?edit");
+    $menu->set_submenu_file_name(FileName."?edit");
     $computer = new Computer($_POST["computer"]);
     
     if($computer->is_valid())
@@ -340,7 +352,7 @@
   {  
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
   
-    $menu->set_file_name(FileName."?create");
+    $menu->set_submenu_file_name(FileName."?create");
     $computer = new Computer();
     $computer->set_id($rep->get_new_computer_id());
     $obsah_html .= Views::computer_create($computer, false);
@@ -350,7 +362,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_file_name(FileName."?create");
+    $menu->set_submenu_file_name(FileName."?create");
     $computer = new Computer($_POST["computer"]);
     
     if($computer->is_valid())
@@ -384,7 +396,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_file_name(FileName."?delete");
+    $menu->set_submenu_file_name(FileName."?delete");
     if($computer = $rep->get_computer($_GET["delete"]))
     {
       $obsah_html .= Views::delete($computer->get_id(),FileName);
@@ -399,7 +411,7 @@
   {
     if($_auth!=Util::iSIT_AUTH_RW){ $obsah_html .= Views::auth_err_rw_only(); goto OUTPUT;  }
 
-    $menu->set_file_name(FileName."?delete");
+    $menu->set_submenu_file_name(FileName."?delete");
     if(!$first_load)
     {
       $obsah_html .= Views::deleted(FileName);
@@ -432,7 +444,7 @@
   /* --- EXPORT --- */
   if(isset($_GET["export"]))
   {
-    $menu->set_file_name(FileName."?list");
+    $menu->set_submenu_file_name(FileName."?list");
     //$stranka->set_hedears ...
     //$obsah_html .= rep get all evnets to csv;
     goto OUTPUT;      
@@ -441,7 +453,7 @@
   /* --- DETAIL --- */
   if(isset($_GET["detail"]))
   {
-    $menu->set_file_name(FileName."?detail");
+    $menu->set_submenu_file_name(FileName."?detail");
     if($computer = $rep->get_computer($_GET["detail"]))
     {
       $obsah_html .= Views::computer_detail($_rw, $computer);
@@ -456,7 +468,7 @@
 	/* --- VYRAZENE --- */
   if(isset($_GET["vyrazene"]))
   {
-    $menu->set_file_name(FileName."?vyrazene");
+    $menu->set_submenu_file_name(FileName."?vyrazene");
       
     $all = $rep->get_all_disabled_computer();
   
@@ -468,7 +480,7 @@
   }  
   
   /* --- LIST --- */
-  $menu->set_file_name(FileName."?list");
+  $menu->set_submenu_file_name(FileName."?list");
  
   $timer = new Timer();
   
