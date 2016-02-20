@@ -375,6 +375,12 @@ class Person
     return $rep->get_all_requirement_by_device($this);
   }
   
+  public function get_all_computer_uses()
+  {
+    $rep = self::$rep;
+    return $rep->get_all_computer_use_by_person_id($this->get_id());
+  }
+
   public function get_all_devices()
   {
     $rep = self::$rep;

@@ -56,7 +56,7 @@ class ComputerViews
         	$users = "";
         	foreach($computer->get_all_uses() as $use)
         	{
-        		$users.=$use->get_person_login().", ";
+        		$users.=$use->get_person_login()."<br>";
         	}
         	if($users != "") $users = substr($users, 0, -2);
         	 
@@ -226,7 +226,7 @@ class ComputerViews
           <ul>';
           foreach($computer->get_all_uses() as $use)
           {
-          	$html.='<li>'.$use->get_person_full_name();
+          	$html.='<li>'.'<a class="hodnota" href="./persons.php?detail='.$use->get_person_id().'">'.$use->get_person_full_name()."</a>";
           	if($rw) $html.=' <a class="remove no_print" href="./computers.php?remove_user='.$use->get_id().'" title="remove user">x</a>';
           	$html.="</li>";
           }

@@ -12,7 +12,7 @@ instalace ubuntu
 ================
 $ sudo apt-get install mysql-server
 $ sudo apt-get install apache2
-$ sudo apt-get install php5 libapache2-mod-auth-mysql php5-mysql 
+$ sudo apt-get install php5 libapache2-mod-auth-mysql php5-mysql php5-ldap
 
 $ mysql -u root -p
 - CREATE DATABASE isit CHARACTER SET utf8 COLLATE utf8_bin;
@@ -46,3 +46,20 @@ nastaveni delky automatickeho odhlaseni (2h)
 /etc/php5/apache2/php.ini
 -------------------------
 session.gc_maxlifetime = 7200
+
+verze 4.2
+=========
+* menu rozdeleno: hlavni menu v ClassSablona.php, submenu zustava v kontrolerech
+* presun stylu a obrazku do samostatneho adresare "/style"
+* presun konfiguracnich souboru do samsostatneho adresare "/conf"
+* zmena overovani vestavnych uctu
+** premisteni kredentials vestavenych uzivatelu z ClassRepository.php do /conf/isit-auth-config.defalut.php
+** soubor /conf/isit-auth-config.php ma vyssi prioritu a pri upgradu se neprepise
+* ldap
+** sudo apt-get install php5-ldap
+** pouze pro RW ucty 
+* computers
+** list: kazdy uzivatele zalomen na dalsi radek
+** detail: uzivatel jako odkaz, prokliknuti na jeho detail
+
+

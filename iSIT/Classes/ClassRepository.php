@@ -434,6 +434,13 @@ class Repository
   	return $this->isit_get_all($sql,"ComputerUse");
   }
   
+  public function get_all_computer_use_by_person_id($person_id)
+  {
+  	$sql = "SELECT id, computer_id, person_id, poznamka FROM computer_uses WHERE person_id = $person_id";
+  
+  	return $this->isit_get_all($sql,"ComputerUse");
+  }
+
   public function get_computer_use($id)
   {
   	$sql = "SELECT id, computer_id, person_id, poznamka FROM computer_uses WHERE id = $id";
@@ -2247,408 +2254,44 @@ class Repository
 	private function connect_isit_db()
 	{
 		return $this->cid;
-	}
-  
+	}	
+
 	private function connect_isit_db_orig()
-  	{
-    	$isitConnectionId;  // identifikator spojeni s db
+	{
+		$isitConnectionId;  // identifikator spojeni s db
+		$db_config_file = self::$dirRoot."/conf/isit-db-config.php";
+		if (file_exists($db_config_file) && is_readable($db_config_file)) 
+   		{
+      			include $db_config_file;    
+    		} 
+    		else 
+    		{
+    			require (self::$dirRoot."/conf/isit-db-config.default.php");
+    		}		
 
-    	$db_config_file = self::$dirRoot."isit-db-config.php";
+		$this->isit_db = $isitDbName;
     
-	    if (file_exists($db_config_file) && is_readable($db_config_file)) 
-	    {
-	      	include $db_config_file;    
-	    } 
-	    else 
-	    {
-	    	require (self::$dirRoot."isit-db-config.default.php");
-	    }
-    
-        
-    /*
-    $dbSrv = 'localhost';//':/webdev/mysql/mysqld.sock';
-    $dbName = 'isit'; 
-    $dbUserName = 'isit';
-    $dbPasswd = 'heslo';
-	*/
-    
-    $this->isit_db = $isitDbName;
-    
-    if($isitConnectionId = mysqli_connect($isitDbSrv, $isitDbUserName,$isitDbPasswd))
-    {
-      mysqli_set_charset($isitConnectionId,'utf8');
-      $isit_id_db = mysqli_select_db($isitConnectionId,$isitDbName);
-      if (!$isit_id_db)
-      {
-        die ("Repository::connect_isit_db(): Nepodarilo se pripojit databazi!");
-      }
-    }
-    else
-    {
-      die ("Repository::connect_isit_db(): Nepodarilo se navazat spojeni se serverem!");
-    }
+    		if($isitConnectionId = mysqli_connect($isitDbSrv, $isitDbUserName,$isitDbPasswd))
+    		{
+			mysqli_set_charset($isitConnectionId,'utf8');
+			$isit_id_db = mysqli_select_db($isitConnectionId,$isitDbName);
+			if (!$isit_id_db)
+			{
+				die ("Repository::connect_isit_db(): Nepodarilo se pripojit databazi!");
+			}
+		}
+		else
+		{
+			die ("Repository::connect_isit_db(): Nepodarilo se navazat spojeni se serverem!");
+		}
+		return $isitConnectionId;    
+	}
       
-    return $isitConnectionId;    
-  }
-      
-  private function connect_db()
-  {
-    $connectionId;  // identifikator spojeni s db
-    $dbSrv = 'localhost';//':/webdev/mysql/mysqld.sock';
-    $dbName = 'sprava_webu'; 
-    $dbUserName = 'sprava_webu';
-    $dbPasswd = 'heslo';
-
-    if($connectionId = mysql_connect($dbSrv, $dbUserName,$dbPasswd))
-    {
-      $id_db = mysql_select_db($dbName); //připojí se k databázi dpimage_cz
-      if (!$id_db)
-      {
-        die ("Repository::connect(): Nepodarilo se pripojit databazi!");
-      }
-    }
-    else
-    {
-      die ("Repository::connect(): Nepodarilo se navazat spojeni se serverem!");
-    }
-      
-    return $connectionId;    
-  }
-
   private function close_db($connectionId)
   {
     //mysql_close($connectionId);
   }  
 
-  private function connect_miklab()
-  {
-    $this->timer->start();
-    
-    $serverName = "festor1";  //" serverName\instanceName ";
-    $connection = array("Database"=>"miklab", "LoginTimeout"=>5);  //array( "Database"=>"dbName");
-    $conn = sqlsrv_connect( $serverName, $connection);
-    
-    if($conn) 
-    {
-      $this->timer->stop();
-      if($this->show_timer)$this->timer->echo_time("Repository->connect_miklab(): ");      
-      return $conn;
-    }
-    else
-    {
-      //die("Repository->connect_miklab(festor,miklab) ERR:".print_r(sqlsrv_errors(), true));
-      echo "Repository->connect_miklab(festor,miklab): sqlsrv_connect():false; ERR:".print_r(sqlsrv_errors(), true)."<br>";
-      return false;
-    }  
-  }
-
-  private function connect_landesk()
-  {
-    $this->timer->start();
-    
-    $serverName = "festor1.ferona.cz";  //" serverName\instanceName ";
-    //old// $connection = array("Database"=>"landesk9", "UID"=>"lookld", "PWD"=>"vidiv9", "LoginTimeout"=>5);  //array( "Database"=>"dbName");
-    $connection = array("Database"=>"landesk95", "UID"=>"lookld", "PWD"=>"vidiv9", "LoginTimeout"=>2);  //array( "Database"=>"dbName");
-    $conn = sqlsrv_connect( $serverName, $connection);
-    
-    if($conn) 
-    {
-      $this->timer->stop();
-      if($this->show_timer)$this->timer->echo_time("Repository->connect_landesk(): ");      
-      return $conn;
-    }
-    else
-    {
-      //die( "Repository->connect_landesk(festor1.ferona.cz,landesk9): ERR, ".print_r(sqlsrv_errors(), true));
-      echo "Repository->connect_landesk(festor1.ferona.cz,landesk9): sqlsrv_connect():err, ".print_r(sqlsrv_errors(), true)."<br>";
-      return false;
-    }  
-  }
-  /* -------------- */
-  /* ---- LDAP ---- */
-  /* -------------- */
-
-  public function ldap_query_ferona($filter)
-  {    
-    return RepositoryLdap::ldap_query_ferona($filter);
-  } 
-
-  public function get_all_ldap_computer()
-  {
-    return RepositoryLdap::get_all_ldap_computer($this->ldap_query_ferona("(&(objectCategory=computer)(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"));
-//    return array_merge( RepositoryLdap::get_all_ldap_computer($this->ldap_query_ferona("(&(objectCategory=computer)(objectClass=user)(operatingSystemVersion=5*)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")),
-//                        RepositoryLdap::get_all_ldap_computer($this->ldap_query_ferona("(&(objectCategory=computer)(objectClass=user)(!(operatingSystemVersion=5*))(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")));
-  }
-  
-  public function get_all_hradec_ldap_computer()
-  {
-    return RepositoryLdap::get_all_hradec_ldap_computer($this->ldap_query_ferona("(&(objectCategory=computer)(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")); //($this->ldap_query_ferona("(&(objectCategory=computer)(objectClass=user)(description=Hradec*)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"));
-  }
-  
-  public function get_all_liberec_ldap_computer()
-  {
-    return RepositoryLdap::get_all_liberec_ldap_computer($this->ldap_query_ferona("(&(objectCategory=computer)(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")); //($this->ldap_query_ferona("(&(objectCategory=computer)(objectClass=user)(description=Liberec*)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"));
-  }
-
-  public function get_all_uas_ldap_computer()
-  {
-    return RepositoryLdap::get_all_uas_ldap_computer($this->ldap_query_ferona("(&(objectCategory=computer)(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"));
-  }
-
-  public function get_all_millenium_ldap_computer()
-  {
-    return RepositoryLdap::get_all_millenium_ldap_computer($this->ldap_query_ferona("(&(objectCategory=computer)(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"));
-  }
-
-  public function get_ldap_computer_by_name($name)
-  {
-    return RepositoryLdap::get_ldap_computer_by_name($this->ldap_query_ferona("(&(objectCategory=computer)(objectClass=user)(cn=$name)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"), $name);
-  }
-
-  public function get_all_ldap_person()
-  {
-    return RepositoryLdap::get_all_ldap_person($this->ldap_query_ferona("(&(objectCategory=person)(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"));
-  }
-
-  public function get_all_hradec_ldap_person()
-  {
-    return RepositoryLdap::get_all_hradec_ldap_person($this->ldap_query_ferona("(&(objectCategory=person)(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")); //($this->ldap_query_ferona("(&(objectCategory=person)(objectClass=user)(description=Hradec*)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"));
-  }
-
-  public function get_all_liberec_ldap_person()
-  {
-    return RepositoryLdap::get_all_liberec_ldap_person($this->ldap_query_ferona("(&(objectCategory=person)(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))")); //($this->ldap_query_ferona("(&(objectCategory=person)(objectClass=user)(description=Liberec*)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"));
-  }
-
-  public function get_all_uas_ldap_person()
-  {
-    return RepositoryLdap::get_all_uas_ldap_person($this->ldap_query_ferona("(&(objectCategory=person)(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"));
-  }
-  
-  public function get_all_millenium_ldap_person()
-  {
-    return RepositoryLdap::get_all_millenium_ldap_person($this->ldap_query_ferona("(&(objectCategory=person)(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"));
-  }
-
-  public function set_ldap_person_osobni_cislo($person)
-  {
-    return RepositoryLdap::set_ldap_person_osobni_cislo($person);
-  }  
-
-
-  public function get_ldap_person_by_login($login)
-  {
-    return RepositoryLdap::get_ldap_person_by_login($login);
-  }  
-
-// *********************
-// **** NET DEVICES ****
-// *********************
-
-  public function save_net_device($net_device)
-  {
-    if(Util::is_instance_of($net_device,"NetDevice") == false) die ("Repository::save_net_device(\$net_device): promenna \$net_device musi byt instanci tridy NetDevice!");
-    if(!$this->get_net_device($net_device->get_id())) die ("Repository::save_net_device(\$net_device): NetDevice s id=".$net_device->get_id()." neexistuje!");
-    $fileName = $net_device->get_id().".dat";        
-    if(self::$net_devices->saveItem($fileName,$net_device->to_dat_string())==false) die ("Repository::save_net_device(\$net_device): Nepodarilo se ulozit soubor $fileName s obsahem \"".$net_device->to_dat_string()."\"!");
-    
-    return true;
-  }  
-    
-  public function add_net_device($net_device)
-  {
-    if(Util::is_instance_of($net_device,"NetDevice") == false) die ("Repository::add_net_device(\$net_device): promenna \$net_device musi byt instanci tridy NetDevice!");
-    if($this->get_net_device($net_device->get_id())) die ("Repository::add_net_device(\$net_device): NetDevice s id=".$net_device->get_id()." jiz existuje!");    
-    $fileName = $net_device->get_id().".dat";
-    if(self::$net_devices->createItem($fileName, $net_device->to_dat_string())==false) die ("Repository::add_net_device(\$net_device): Nepodarilo se vytvorit soubor $fileName s obsahem \"".$net_device->to_dat_string()."\"!");
-    
-    return true;
-  }  
-  
-  public function get_new_net_device_id()
-  {   
-    $new_id=0; 
-    if($pole = $this->get_all_net_device())
-    {
-      foreach($pole as $net_device)
-      {
-        if($net_device->get_id()>$new_id)$new_id = $net_device->get_id();
-      }
-      return $new_id + 1;  
-    }
-    return $new_id;
-  }
-  
-  public function get_every_net_device($key = "seriove_cislo")
-  {
-    // key: seriove_cislo
-    $net_devices = array();
-    $pole = self::$net_devices->select(NetDevice::get_id_index(),"!=","");
-    if(is_array($pole))
-    {
-      foreach($pole as $item)
-      {
-        $pc = new NetDevice($item);
-        if($key == "seriove_cislo") $net_devices[$pc->get_seriove_cislo()] = $pc;
-        if($key == "evidencni_cislo") 
-        {
-          if($pc->get_evidencni_cislo() != "vyrazen") $net_devices[$pc->get_evidencni_cislo()] = $pc;
-        }
-      }
-      return $net_devices;
-    }
-    return array();
-  }
-
-  public function get_all_net_device($key = "seriove_cislo")
-  {
-    // key: seriove_cislo
-    $net_devices = array();
-    $pole = self::$net_devices->select(NetDevice::get_id_index(),"!=","");
-    if(is_array($pole))
-    {
-      foreach($pole as $item)
-      {
-        $pc = new NetDevice($item);
-        if($key == "seriove_cislo") $net_devices[$pc->get_seriove_cislo()] = $pc;
-        if($key == "evidencni_cislo") 
-        {
-          if($pc->get_evidencni_cislo() != "vyrazen") $net_devices[$pc->get_evidencni_cislo()] = $pc;
-        }
-      }
-      return $net_devices;
-    }
-    return array();
-  }
- 
-  public function get_all_hradec_net_device($key = "seriove_cislo")
-  {
-    // key: seriove_cislo
-    $net_devices = array();
-    $pole = self::$net_devices->select(NetDevice::get_id_index(),"!=","");
-    if(is_array($pole))
-    {
-      foreach($pole as $item)
-      {
-        $pc = new NetDevice($item);
-        $pobocka = (int)($pc->get_evidencni_cislo()/1000000);
-        //echo "ev_num: (int)(".$pc->get_evidencni_cislo()."/1000000) = ".$pobocka."<br>";
-        if($pobocka != 500) continue; 
-                
-        if($key == "seriove_cislo") 
-        {
-          $net_devices[$pc->get_seriove_cislo()] = $pc;
-        }
-        
-        if($key == "evidencni_cislo") 
-        {
-          if($pc->get_evidencni_cislo() != "vyrazen") $net_devices[$pc->get_evidencni_cislo()] = $pc;
-        }
-      }
-      return $net_devices;
-    }
-    return array();
-  }
-
-  public function get_all_ssc_net_device($key = "seriove_cislo")
-  {
-    // key: seriove_cislo
-    $net_devices = array();
-    $pole = self::$net_devices->select(NetDevice::get_id_index(),"!=","");
-    if(is_array($pole))
-    {
-      foreach($pole as $item)
-      {
-        $pc = new NetDevice($item);
-        $pobocka = (int)($pc->get_evidencni_cislo()/1000000);
-        //echo "ev_num: (int)(".$pc->get_evidencni_cislo()."/1000000) = ".$pobocka."<br>";
-        if($pobocka != 400) continue; 
-                
-        if($key == "seriove_cislo") 
-        {
-          $net_devices[$pc->get_seriove_cislo()] = $pc;
-        }
-        
-        if($key == "evidencni_cislo") 
-        {
-          if($pc->get_evidencni_cislo() != "vyrazen") $net_devices[$pc->get_evidencni_cislo()] = $pc;
-        }
-      }
-      return $net_devices;
-    }
-    return array();
-  }
-
-  public function get_all_liberec_net_device($key = "seriove_cislo")
-  {
-    // key: seriove_cislo
-    $net_devices = array();
-    $pole = self::$net_devices->select(NetDevice::get_id_index(),"!=","");
-    if(is_array($pole))
-    {
-      foreach($pole as $item)
-      {
-        $pc = new NetDevice($item);
-        $pobocka = (int)($pc->get_evidencni_cislo()/1000000);
-        //echo "ev_num: (int)(".$pc->get_evidencni_cislo()."/1000000) = ".$pobocka."<br>";
-        if($pobocka != 150) continue; 
-                
-        if($key == "seriove_cislo") 
-        {
-          $net_devices[$pc->get_seriove_cislo()] = $pc;
-        }
-        
-        if($key == "evidencni_cislo") 
-        {
-          if($pc->get_evidencni_cislo() != "vyrazen") $net_devices[$pc->get_evidencni_cislo()] = $pc;
-        }
-      }
-      return $net_devices;
-    }
-    return array();
-  }
-
-  public function get_all_nezarazene_net_device($key = "seriove_cislo")
-  {
-    // key: seriove_cislo
-    $net_devices = array();
-    $pole = self::$net_devices->select(NetDevice::get_id_index(),"!=","");
-    if(is_array($pole))
-    {
-      foreach($pole as $item)
-      {
-        $pc = new NetDevice($item);
-        $pobocka = (int)($pc->get_evidencni_cislo()/1000000);
-        //echo "ev_num: (int)(".$pc->get_evidencni_cislo()."/1000000) = ".$pobocka."<br>";
-        if($pobocka == 500) continue; 
-        if($pobocka == 400) continue;
-        if($pobocka == 150) continue;
-                
-        if($key == "seriove_cislo") 
-        {
-          $net_devices[$pc->get_seriove_cislo()] = $pc;
-        }
-        
-        if($key == "evidencni_cislo") 
-        {
-          if($pc->get_evidencni_cislo() != "vyrazen") $net_devices[$pc->get_evidencni_cislo()] = $pc;
-        }
-      }
-      return $net_devices;
-    }
-    return array();
-  }
-  
-  public function get_net_device($id)
-  {
-    if($item = self::$net_devices->get_item($id))
-    {
-      return new NetDevice($item);
-    }
-    return false;
-  }
-  
-  
   /* **********
    * LOCATION *
    ********** */
@@ -2698,26 +2341,13 @@ class Repository
   	return $this->isit_get_one($sql,"Location");
   }
 
-  /*
-  public function get_location($location)
-  {
-  	$locations = array("", "group", "institut", "gympl", "skola", "skolka1", "skolka2", "boleslavka");
-  	if(isset($locations[$location])) return $locations[$location];
-  	foreach ($locations as $key => $value)
-  	{
-  		if ($location === $key) return $value;
-  	}
-  	return "";
-  }
-  */
-  
   public function get_isit_db()
   {
   	return $this->isit_db;
   }
 
 
-  public function get_isit_auth($user, $passw)
+  public function get_isit_auth_old($user, $passw)
   {
   	//if(($user=="isit_rw")AND($passw=="readwrite")) return Util::iSIT_AUTH_RW; // RW
   	if(($user=="admin")AND($passw=="isit")) return Util::iSIT_AUTH_RW; // RW
@@ -2727,6 +2357,60 @@ class Repository
   	if(($user=="ir")AND($passw=="albert")) return Util::iSIT_AUTH_RW; // RW
   	return Util::iSIT_AUTH_NO_AUTH; // rejected
   }
+
+public function get_isit_auth($user, $passw)
+{
+	$auth = array();
+	$auth_type = "isit"; // isit, ldap
+
+	$auth_config_file = self::$dirRoot."/conf/isit-auth-config.php";
+	if (file_exists($auth_config_file) && is_readable($auth_config_file)) 
+	{
+		include $auth_config_file;    
+	} 
+	else 
+	{
+		require (self::$dirRoot."/conf/isit-auth-config.default.php");
+	}		
+
+	// overovani vestavnych uzivatelu
+	if($auth_type == "isit")
+	{
+		foreach ($auth as $row)
+		{
+	  		if(($row["user"]==$user)AND($passw==$row["passw"])) return $row["permission"];
+		}
+	  	return Util::iSIT_AUTH_NO_AUTH; // rejected
+	}
+
+	// overovani proti ldap
+	if($auth_type == "ldap")
+	{
+		$userdn = "uid=".$user.",".$ldap_user_dn;
+		
+		$ldapconn = ldap_connect($ldap_srv, $ldap_port) or die("Could not connect to $ldap_srv");
+		ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
+		ldap_set_option($ldapconn, LDAP_OPT_NETWORK_TIMEOUT, 15);
+    
+		if ($ldapbind = @ldap_bind($ldapconn, $userdn, $passw)) 
+		{
+			//cn=isit_rw,ou=Groups,dc=duhovka
+
+			$dn = "cn=isit_rw,ou=Groups,dc=duhovka";
+			$filter="(member=*)";
+			$justthese = array("member");
+			$sr=ldap_search($ldapconn, $dn, $filter, $justthese);
+			$info = ldap_get_entries($ldapconn, $sr);
+
+			foreach($info[0]["member"] as $key => $value)
+			{
+				if($value == $userdn) return Util::iSIT_AUTH_RW;
+			}
+		}
+		return Util::iSIT_AUTH_NO_AUTH;
+	}
+}	
+
   
 } // end Class
 ?>

@@ -167,7 +167,7 @@ class PersonViews
           $html.='</ul>
         </p>';  
 
-
+/*
         $devices = $person->get_all_devices();
         
 $html.= '<p>
@@ -180,6 +180,7 @@ $html.= '<p>
         
           $html.='</ul>
         </p>';  
+*/
     return $html;
   }
   

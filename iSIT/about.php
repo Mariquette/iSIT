@@ -32,22 +32,44 @@
     <div class="informace">
       <h3>iSIT plánované rozšíření</h3>
       <ul>
-            <li>General: podchytit stav kdy je poda vyrazovak ke kontrole, ke schvaleni, kdy byl schvalen - pri dohledavani nenavrhnutych to usnadni praci</li>
-            <li>General: nestandardni chovani pri dlohe prodleve vytvareni noveho zaznamu - skoci jako ze je ok, ale neulozi se</li>
-    		<li>General: zobecnit casto pouzivane parametry, napr. jmeno muze byt tabulka s relaci na typ objektu (ser.num, ev.num, ip, mac,location,...)</li>
-			<li>General: repository: prikaz select: vzit parametry a jejich poradi z tridniho objektu - casto se opakujici definice</li>
-    		<li>General: prepinac/filtr na jednotlive pobocky, uplatni se nasledne na persons, computers, printers</li>
-    		<li>General: evidence sitovych prvku (kerio, switch, ap, router, dsl; ip, lokalita, info)</li>
-            <li>Computers: přidání požadavku hw/sw .pdf</li>
-            <li>Persons: přehled o svěřených a používaných zařízeních</li>
-            <li>Printers: přidání požadavku hw/sw .pdf</li>
-            <li>Notes: prehlednejsi zobrazeni udalosti</li>
-            <li>Notes: vylepsit moznosti zapisu strukturovaneho textu</li>
-            <li>Utils: export</li>
+	<li>stranka info/pobocky - odkazy na jednotliva zarizeni (servery, sit. prvky)</li>
+	<li>evidence sitovych prvku (kerio, switch, ap, router, dsl; ip, lokalita, info)</li>
+	<li>prepinac/filtr na jednotlive pobocky, uplatni se nasledne na persons, computers, printers</li>
+	<li>computer: pocitace deleni nb/desktop/srv hw/virt</li>
+	<li>persons: seznam zarizeni (pocitac, printer)</li>
+	<li>persons: propojeni na google (overeni mailu uzivatele)</li>
+	<li>persons: propojeni na omnio / ldap (overeni existence uzivatele, zarazeni (zak, ucitel, ucetni)...)
+	<li>persons: pridat predavaci protokol v pdf</li>
+	<li>computers, printers: pridavani dokumentu k zarizeni (faktura aby se nedublovala)
+        <li>podchytit stav kdy je poda vyrazovak ke kontrole, ke schvaleni, kdy byl schvalen - pri dohledavani nenavrhnutych to usnadni praci</li>
+    	<li>zobecnit casto pouzivane parametry, napr. jmeno muze byt tabulka s relaci na typ objektu (ser.num, ev.num, ip, mac,location,...)</li>
+	<li>repository: prikaz select: vzit parametry a jejich poradi z tridniho objektu - casto se opakujici definice</li>
+	<li>prepinac/filtr na jednotlive pobocky, uplatni se nasledne na persons, computers, printers</li>
+    	<li>evidence sitovych prvku (kerio, switch, ap, router, dsl; ip, lokalita, info)</li>
+        <li>notes: prehlednejsi zobrazeni udalosti</li>
+        <li>notes: vylepsit moznosti zapisu strukturovaneho textu</li>
+        <li>utils: export</li>
       </ul>
       
       <hr>
-    		
+    
+
+<h3>iSIT v4.2 duhovka</h3>
+
+      <ul>
+        <li>menu rozdeleno: hlavni menu v ClassSablona.php, submenu zustava v kontrolerech</li>
+	<li>presun stylu a obrazku do samostatneho adresare "/style"</li>
+	<li>presun konfiguracnich souboru do samsostatneho adresare "/conf"</li>
+	<li>zmena overovani vestavnych uctu; premisteni kredentials vestavenych uzivatelu z ClassRepository.php do /conf/isit-auth-config.defalut.php; soubor /conf/isit-auth-config.php ma vyssi prioritu a pri upgradu se neprepise</li>
+	<li>moznost ldap autentifikace; nutny modul php5-ldap; pouze pro RW ucty; konfigurace v /conf/isit-auth-config.php</li>
+	<li>computers list: kazdy uzivatele zalomen na dalsi radek</li>
+	<li>computers detail: uzivatel jako odkaz, prokliknuti na jeho detail</li>
+      </ul>      
+
+    		    		
+      <hr>
+
+		
 <h3>iSIT v4.1 duhovka</h3>
       <ul>
         <li>
@@ -57,7 +79,6 @@
     		<li>pridana polozka pro spravu lokalit</li>
             <li>uprava prihlasovaci a uvodni stranky</li>
     		<li>extrakce prihlasovacich udaju k db do externiho souboru isit-db-config.default.php</li>
-    		<li></li>
           </ul>
         </li>
       </ul>      

@@ -54,13 +54,13 @@ class Sablona
             <meta http-equiv="pragma" content="no-cache">
             <meta http-equiv="expires" content="0">
             
-            <link rel="stylesheet" type="text/css" media="all" href="'.$this->dir_root.'styl.css">
-            <link rel="stylesheet" type="text/css" media="print" href="'.$this->dir_root.'styl_printer.css">
+            <link rel="stylesheet" type="text/css" media="all" href="'.$this->dir_root.'/style/styl.css">
+            <link rel="stylesheet" type="text/css" media="print" href="'.$this->dir_root.'/style/styl_printer.css">
             <title>'.$this->title.'</title>
           </head>
           
           <body class="vse">
-            <h1 class="main">iSiT(v4.1 db:'.$this->rep->get_isit_db().') by BQ</h1>
+            <h1 class="main">iSiT(v4.2 db:'.$this->rep->get_isit_db().') by BQ</h1>
               <div class="main_menu">
                 '.$menu->get_html().$submenu.'      
               </div>
@@ -81,7 +81,7 @@ class Sablona
     }
     else
     {
-      $styl_css = '<link rel="stylesheet" type="text/css" media="all" href="'.$this->dir_root.$css.'">';
+      $styl_css = '<link rel="stylesheet" type="text/css" media="all" href="'.$this->dir_root.'/style/'.$css.'">';
     }
     
     return '
